@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\college\\CS4125\\Project\\UniLibrary\\UniLibrary.csproj": {}
+    "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\college\\CS4125\\Project\\UniLibrary\\UniLibrary.csproj": {
+    "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\college\\CS4125\\Project\\UniLibrary\\UniLibrary.csproj",
+        "projectUniqueName": "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj",
         "projectName": "UniLibrary",
-        "projectPath": "C:\\Dev\\college\\CS4125\\Project\\UniLibrary\\UniLibrary.csproj",
+        "projectPath": "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj",
         "packagesPath": "C:\\Users\\Luke Bogdanovic\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\college\\CS4125\\Project\\UniLibrary\\obj\\",
+        "outputPath": "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Luke Bogdanovic\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,26 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SQLite": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
