@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj": {}
+    "/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/UniLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj": {
+    "/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/UniLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj",
+        "projectUniqueName": "/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/UniLibrary.csproj",
         "projectName": "UniLibrary",
-        "projectPath": "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\UniLibrary.csproj",
-        "packagesPath": "C:\\Users\\Luke Bogdanovic\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\college\\CS4125\\Project\\CS4125-System-Analysis-and-Design\\UniLibrary\\obj\\",
+        "projectPath": "/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/UniLibrary.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Luke Bogdanovic\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/dotnet/6/sdk/6.0.402/RuntimeIdentifierGraph.json"
         }
       }
     }

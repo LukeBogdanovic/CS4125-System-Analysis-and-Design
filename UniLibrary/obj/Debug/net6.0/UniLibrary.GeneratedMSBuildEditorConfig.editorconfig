@@ -8,65 +8,65 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = UniLibrary
 build_property.RootNamespace = UniLibrary
-build_property.ProjectDir = C:\Dev\college\CS4125\Project\CS4125-System-Analysis-and-Design\UniLibrary\
+build_property.ProjectDir = /workspaces/CS4125-System-Analysis-and-Design/UniLibrary/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Dev\college\CS4125\Project\CS4125-System-Analysis-and-Design\UniLibrary
+build_property.MSBuildProjectDirectory = /workspaces/CS4125-System-Analysis-and-Design/UniLibrary
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcQ3JlYXRlLmNzaHRtbA==
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9va3MvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcRGVsZXRlLmNzaHRtbA==
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9va3MvRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcRGV0YWlscy5jc2h0bWw=
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9va3MvRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcRWRpdC5jc2h0bWw=
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9va3MvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcSW5kZXguY3NodG1s
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Books/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9va3MvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/HelloWorld/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVsbG9Xb3JsZFxJbmRleC5jc2h0bWw=
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/HelloWorld/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSGVsbG9Xb3JsZC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/HelloWorld/Welcome.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVsbG9Xb3JsZFxXZWxjb21lLmNzaHRtbA==
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/HelloWorld/Welcome.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSGVsbG9Xb3JsZC9XZWxjb21lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Dev/college/CS4125/Project/CS4125-System-Analysis-and-Design/UniLibrary/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-rgvo98we6o
+[/workspaces/CS4125-System-Analysis-and-Design/UniLibrary/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-a16k13njy2

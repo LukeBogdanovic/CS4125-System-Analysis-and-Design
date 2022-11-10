@@ -20,11 +20,24 @@ namespace UniLibrary.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string bookGenre, string searchString)
         {
-            return _context.Book != null ?
-                        View(await _context.Book.ToListAsync()) :
-                        Problem("Entity set 'MvcBookContext.Book'  is null.");
+            IQueryable<string> genreQuery = from b in _context.Book orderby b.Genre select b.Genre;
+            var books = from b in _context.Book select b;
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.Title.Contains(searchString));
+            }
+            if(!String.IsNullOrEmpty(bookGenre))
+            {
+                books = books.Where(x => x.Genre == bookGenre);
+            }
+            var bookGenreVM = new BooksGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Books = await books.ToListAsync()
+            };
+            return View(bookGenreVM);
         }
 
         // GET: Books/Details/5
@@ -56,7 +69,7 @@ namespace UniLibrary.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Book book)
+        public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price,Pages")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +101,7 @@ namespace UniLibrary.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price,Pages")] Book book)
         {
             if (id != book.ID)
             {
