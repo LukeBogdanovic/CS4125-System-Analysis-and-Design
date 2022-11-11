@@ -26,7 +26,7 @@ namespace UniLibrary.Models
     }
 
 
-    public static class SeedData
+    public static class SeedRoomData
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
@@ -42,32 +42,38 @@ namespace UniLibrary.Models
                     {
                         RoomName = "101",
                         RoomType = "Meeting",
-                        Capacity = 10,
+                        Capacity = 12,
                     }, new Room
                     {
-                        Title = "102",
-                        ReleaseDate = DateTime.Parse("1986-2-23"),
-                        Genre = "c",
-                        Pages = 750,
-                        Price = 0.00M
+                        RoomName = "102",
+                        RoomType = "Meeting",
+                        Capacity = 16,
                     }, new Room
                     {
-                        Title = "e",
-                        ReleaseDate = DateTime.Parse("1959-4-15"),
-                        Genre = "f",
-                        Pages = 650,
-                        Price = 0.00M
+                        RoomName = "201",
+                        RoomType = "Study",
+                        Capacity = 6,
                     }, new Room
                     {
-                        Title = "g",
-                        ReleaseDate = DateTime.Parse("1989-2-12"),
-                        Genre = "h",
-                        Pages = 550,
-                        Price = 0.00M
+                        RoomName = "301",
+                        RoomType = "Conference",
+                        Capacity = 40,
+                    },new Room
+                    {
+                        RoomName = "302",
+                        RoomType = "Conference",
+                        Capacity = 50,
                     }
                 );
                 context.SaveChanges();
             }
         }
     }
+        public class RoomsGenreViewModel
+    {
+        public List<Book> Rooms { get; set; }
+        public SelectList RoomType { get; set; }
+        public string Capacity { get; set; }
+    }
+
 }
