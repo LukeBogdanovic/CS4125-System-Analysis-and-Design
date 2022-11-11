@@ -4,6 +4,8 @@ using UniLibrary.Data;
 using UniLibrary.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MvcUserContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("MvcUserContext") ?? throw new InvalidOperationException("Connection string 'MvcUserContext' not found.")));
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<MvcBookContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("MvcBookContext")));
