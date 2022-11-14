@@ -1,4 +1,4 @@
-@model UniLibrary.Models.Room
+@model UniLibrary.Models.RoomsTypeViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,10 +11,10 @@
 </p>
 <form asp-controller="Room" asp-action="Index" method="get">
     <p>
-        <select asp-for="BookGenre" asp-items="Model.Genres">
+        <select asp-for="RoomType" asp-items="Model.Types">
             <option value="">All</option>
         </select>
-        Title: <input type="text" asp-for="SearchString" />
+        Room Name: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -22,18 +22,18 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Room[0].RoomName)
+                @Html.DisplayNameFor(model => model.Rooms[0].RoomName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Room[0].RoomType)
+                @Html.DisplayNameFor(model => model.Rooms[0].RoomType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Room[0].Capacity)
+                @Html.DisplayNameFor(model => model.Rooms[0].Capacity)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Room)
+        @foreach (var item in Model.Rooms)
         {
             <tr>
                 <td>

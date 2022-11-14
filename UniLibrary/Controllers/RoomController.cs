@@ -19,9 +19,24 @@ namespace UniLibrary.Controllers
         }
 
         // GET: Room
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string roomType, string searchString)
         {
-              return View(await _context.Room.ToListAsync());
+            IQueryable<string> roomQuery = from r in _context.Room orderby r.RoomType select r.RoomType;
+            var rooms = from r in _context.Room select r;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                rooms = rooms.Where(s => s.RoomName.Contains(searchString));
+            }
+            if (!String.IsNullOrEmpty(roomType))
+            {
+                rooms = rooms.Where(x => x.RoomType == roomType);
+            }
+            var roomTypeVM = new RoomsTypeViewModel
+            {
+                Types = new SelectList(await roomQuery.Distinct().ToListAsync()),
+                Rooms = await rooms.ToListAsync()
+            };
+            return View(roomTypeVM);
         }
 
         // GET: Room/Details/5
@@ -147,14 +162,14 @@ namespace UniLibrary.Controllers
             {
                 _context.Room.Remove(room);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RoomExists(int id)
         {
-          return _context.Room.Any(e => e.ID == id);
+            return _context.Room.Any(e => e.ID == id);
         }
     }
 }

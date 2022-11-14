@@ -58,7 +58,7 @@ namespace UniLibrary.Models
                         RoomName = "301",
                         RoomType = "Conference",
                         Capacity = 40,
-                    },new Room
+                    }, new Room
                     {
                         RoomName = "302",
                         RoomType = "Conference",
@@ -69,11 +69,15 @@ namespace UniLibrary.Models
             }
         }
     }
-        public class RoomsGenreViewModel
+    public class RoomsTypeViewModel
     {
-        public List<Book> Rooms { get; set; }
-        public SelectList RoomType { get; set; }
+        public List<Room> Rooms { get; set; }
+        public SelectList Types { get; set; }
         public string Capacity { get; set; }
+        public string SearchString { get; set; }
+        public string RoomType { get; set; }
+
+
     }
 
 }
