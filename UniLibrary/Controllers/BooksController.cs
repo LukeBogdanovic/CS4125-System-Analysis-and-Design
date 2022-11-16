@@ -24,11 +24,11 @@ namespace UniLibrary.Controllers
         {
             IQueryable<string> genreQuery = from b in _context.Book orderby b.Genre select b.Genre;
             var books = from b in _context.Book select b;
-            if(!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                books = books.Where(s => s.Title.Contains(searchString));
+                books = books.Where(s => s.Title!.Contains(searchString));
             }
-            if(!String.IsNullOrEmpty(bookGenre))
+            if (!String.IsNullOrEmpty(bookGenre))
             {
                 books = books.Where(x => x.Genre == bookGenre);
             }
