@@ -24,7 +24,7 @@ namespace UniLibrary.Models
         [Required]
         [StringLength(30)]
         public string? Genre { get; set; }
-        [Range(1,100)]
+        [Range(1, 100)]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
