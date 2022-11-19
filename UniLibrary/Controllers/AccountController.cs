@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Auth0.AspNetCore.Authentication;
 
 namespace UniLibrary.Controllers
 {
@@ -12,7 +15,7 @@ namespace UniLibrary.Controllers
         [Authorize]
         public async Task Logout()
         {
-            var authenticationProperties = new LoginAuthenticationPropertiesBuilder().WithRedirectUri(Url.Action("Index", "Home")!).Build();
+            var authenticationProperties = new LogoutAuthenticationPropertiesBuilder().WithRedirectUri("/Home/Index").Build();
             await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
