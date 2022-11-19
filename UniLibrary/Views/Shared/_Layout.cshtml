@@ -28,7 +28,32 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home"
                                 asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Books"
+                                asp-action="Index">Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Room" asp-action="Index">Book A
+                                Room</a>
+                        </li>
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account"
+                                asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account"
+                                asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
+                </div>
+                <div class="">
+
                 </div>
             </div>
         </nav>
