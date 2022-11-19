@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<MvcBookContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("MvcBookContext")));
+    builder.Services.AddDbContext<MvcRoomContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("MvcRoomContext")));
 }
 else
 {
     builder.Services.AddDbContext<MvcBookContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcBookContext")));
+    builder.Services.AddDbContext<MvcBookContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcRoomContext")));
 }
 
 // Add services to the container.
@@ -23,6 +25,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     SeedData.Initialize(services);
+    SeedRoomData.Initialize(services);
 }
 
 // Configure the HTTP request pipeline.
