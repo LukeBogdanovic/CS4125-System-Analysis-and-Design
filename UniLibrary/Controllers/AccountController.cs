@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Auth0.AspNetCore.Authentication;
+using UniLibrary.Models;
+using System.Security.Claims;
 
 namespace UniLibrary.Controllers
 {
@@ -10,6 +12,17 @@ namespace UniLibrary.Controllers
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder().WithRedirectUri(returnURL).Build();
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
+        }
+
+        [Authorize]
+        public IActionResult Profile()
+        {
+            return View(new User()
+            {
+                Name = User.Identity.Name,
+                Email = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
+                Avatar = User.FindFirst(c => c.Type == "picture")?.Value
+            });
         }
 
         [Authorize]
