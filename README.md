@@ -9,3 +9,4 @@ Before running the Program.cs file this command should be run in your terminal:`
 
 [![.NET](https://github.com/LukeBogdanovic/CS4125-System-Analysis-and-Design/actions/workflows/dotnet.yml/badge.svg)](https://github.com/LukeBogdanovic/CS4125-System-Analysis-and-Design/actions/workflows/dotnet.yml)
 
+[![Build](https://github.com/LukeBogdanovic/CS4125-System-Analysis-and-Design/actions/workflows/sonarqube.yml/badge.svg)](https://github.com/LukeBogdanovic/CS4125-System-Analysis-and-Design/actions/workflows/sonarqube.yml)
