@@ -1,21 +1,26 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using UniLibrary.Models;
+using UniLibrary.Interfaces;
 
 namespace UniLibrary.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBookService _bookService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IBookService bookService, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _bookService = bookService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var books = await _bookService.GetAllBookDetailsAsync(filter: null, orderBy: null, a => a.Author!, c => c.Copies!);
+
+            return View(books);
         }
 
         public IActionResult Privacy()
