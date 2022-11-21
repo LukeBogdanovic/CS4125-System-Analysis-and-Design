@@ -4,6 +4,8 @@ using UniLibrary.Data;
 using UniLibrary.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MvcComputerContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("MvcComputerContext") ?? throw new InvalidOperationException("Connection string 'MvcComputerContext' not found.")));
 builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = builder.Configuration["Auth0:Domain"];

@@ -2,3 +2,5 @@ UniLibrary/.vscode
 UniLibrary/bin
 UniLibrary/obj
 UniLibrary/Properties
+.vscode/launch.json
+.vscode/tasks.json
