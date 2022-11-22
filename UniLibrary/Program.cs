@@ -7,6 +7,7 @@ using UniLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using UniLibrary.Interfaces;
 using UniLibrary.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuth0WebAppAuthentication(options =>
@@ -19,6 +20,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(
 // Add services to the container.
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBookCopyLoanService, BookCopyLoanService>();
+builder.Services.AddScoped<IBookCopyService, BookCopyService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 var app = builder.Build();

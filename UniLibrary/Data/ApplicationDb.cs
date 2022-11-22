@@ -14,6 +14,7 @@ namespace UniLibrary.Data
         public DbSet<Author>? Authors { get; set; }
         public DbSet<BookCopy>? BookCopies { get; set; }
         public DbSet<Loan>? Loans { get; set; }
+        public DbSet<User>? Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -194,6 +195,13 @@ namespace UniLibrary.Data
                 new BookCopyLoan { BookCopyID = 3, LoanID = 1 },
                 new BookCopyLoan { BookCopyID = 12, LoanID = 1 },
                 new BookCopyLoan { BookCopyID = 7, LoanID = 2 }
+            );
+            modelBuilder.Entity<User>().HasData(
+                new User { ID = 1, StudentID = "19855666", Name = "Daniel Graham" },
+                new User { ID = 2, StudentID = "19555661", Name = "Eric Howell" },
+                new User { ID = 3, StudentID = "19555662", Name = "Patricia Lebsack" },
+                new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir" },
+                new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert" }
             );
         }
 
