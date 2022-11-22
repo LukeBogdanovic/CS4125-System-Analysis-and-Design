@@ -7,35 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UniLibrary.Data;
 using UniLibrary.Models;
+using UniLibrary.Interfaces;
 
 namespace UniLibrary.Controllers
 {
     public class ComputersController : Controller
     {
-        private readonly MvcComputerContext _context;
+        private readonly IComputerService _computerService;
 
-        public ComputersController(MvcComputerContext context)
+        public ComputersController(IComputerService computerService)
         {
-            _context = context;
+            _computerService = computerService;
         }
 
         // GET: Computers
         public async Task<IActionResult> Index()
         {
-              return _context.Computer != null ? 
-                          View(await _context.Computer.ToListAsync()) :
+              return _computerService.Computer != null ? 
+                          View(await _computerService.Computer.ToListAsync()) :
                           Problem("Entity set 'MvcComputerContext.Computer'  is null.");
         }
 
         // GET: Computers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Computer == null)
+            if (id == null || _computerService.Computer == null)
             {
                 return NotFound();
             }
 
-            var computer = await _context.Computer
+            var computer = await _computerService.Computer
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (computer == null)
             {
@@ -60,8 +61,8 @@ namespace UniLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(computer);
-                await _context.SaveChangesAsync();
+                _computerService.Add(computer);
+                await _computerService.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(computer);
@@ -70,12 +71,12 @@ namespace UniLibrary.Controllers
         // GET: Computers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Computer == null)
+            if (id == null || _computerService.Computer == null)
             {
                 return NotFound();
             }
 
-            var computer = await _context.Computer.FindAsync(id);
+            var computer = await _computerService.Computer.FindAsync(id);
             if (computer == null)
             {
                 return NotFound();
@@ -99,8 +100,8 @@ namespace UniLibrary.Controllers
             {
                 try
                 {
-                    _context.Update(computer);
-                    await _context.SaveChangesAsync();
+                    _computerService.Update(computer);
+                    await _computerService.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,12 +122,12 @@ namespace UniLibrary.Controllers
         // GET: Computers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Computer == null)
+            if (id == null || _computerService.Computer == null)
             {
                 return NotFound();
             }
 
-            var computer = await _context.Computer
+            var computer = await _computerService.Computer
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (computer == null)
             {
@@ -141,23 +142,23 @@ namespace UniLibrary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Computer == null)
+            if (_computerService.Computer == null)
             {
                 return Problem("Entity set 'MvcComputerContext.Computer'  is null.");
             }
-            var computer = await _context.Computer.FindAsync(id);
+            var computer = await _computerService.Computer.FindAsync(id);
             if (computer != null)
             {
-                _context.Computer.Remove(computer);
+                _computerService.Computer.Remove(computer);
             }
             
-            await _context.SaveChangesAsync();
+            await _computerService.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ComputerExists(int id)
         {
-          return (_context.Computer?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_computerService.Computer?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }
