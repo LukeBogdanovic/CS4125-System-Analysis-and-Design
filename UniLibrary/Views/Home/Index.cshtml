@@ -1,8 +1,33 @@
-﻿@{
+﻿@model IEnumerable<UniLibrary.Models.BookDetails>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row pb-3">
+    @foreach (var book in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:1px solid #212529; border-radius: 5px;">
+                    <div class="card">
+                        <a asp-controller="Books" asp-action="edit" class="btn-link" asp-route-id="@book.ID">
+                            <img src="https://source.unsplash.com/random/600x700/?books/@book.ID" class="d-block w-100"
+                            alt="books" class="card-img-top rounded" />
+                        </a>
+                        <div class="card-body" style="height: 320px;">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-dark">@book.Title</p>
+                                <p class="card-title text-muted"><small>@book.Description</small></p>
+                                <p class="card-title text-info"><i>by @book.Author.Name</i></p>
+                            </div>
+                            <div class="pl-1">
+                                <p><i>Copies: @book.Copies.Count</i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>

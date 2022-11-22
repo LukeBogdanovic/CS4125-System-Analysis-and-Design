@@ -20,8 +20,7 @@ namespace UniLibrary.Controllers
             return View(new User()
             {
                 Name = User.Identity!.Name!,
-                Email = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value!,
-                Avatar = User.FindFirst(c => c.Type == "picture")?.Value!
+                EmailAddress = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value!,
             });
         }
 
