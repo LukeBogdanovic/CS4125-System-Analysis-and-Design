@@ -5,7 +5,7 @@ using UniLibrary.Data;
 namespace UniLibrary.Services
 {
 #pragma warning disable
-    public partial class BaseService<T> : IAsyncGenericRepository<T> where T : class
+    public abstract class BaseService<T> : IAsyncGenericRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
         internal readonly DbSet<T> _table;

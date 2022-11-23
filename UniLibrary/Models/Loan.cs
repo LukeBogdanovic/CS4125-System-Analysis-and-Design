@@ -11,8 +11,9 @@ namespace UniLibrary.Models
         public DateTime ReturnDate { get; set; }
         public DateTime DueDate { get; set; }
         public double Fee { get; set; }
-        public List<BookCopyLoan> BookCopyLoans { get; set; }
-        public int MemberID { get; set; }
+        public List<BookCopyLoan>? BookCopyLoans { get; set; }
+        public int UserID { get; set; }
+        public User User { get; set; }
 
         public Loan()
         {

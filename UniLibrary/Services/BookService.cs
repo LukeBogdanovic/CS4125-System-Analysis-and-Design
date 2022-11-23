@@ -14,7 +14,7 @@ namespace UniLibrary.Services
         {
         }
 
-        public async Task<IReadOnlyList<BookDetails>> GetAllBookDetailsAsync(Expression<Func<BookDetails, bool>>? filter = null, Func<IQueryable<BookDetails>, IOrderedQueryable<BookDetails>>? orderBy = null, params Expression<Func<BookDetails, object>>[] includeProperties)
+        public async Task<IReadOnlyList<BookDetails>> GetAllBookDetailsAsync(Expression<Func<BookDetails, bool>> filter = null, Func<IQueryable<BookDetails>, IOrderedQueryable<BookDetails>> orderBy = null, params Expression<Func<BookDetails, object>>[] includeProperties)
         {
             IQueryable<BookDetails> query = _table;
             if (filter != null)

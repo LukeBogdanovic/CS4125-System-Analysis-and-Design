@@ -14,7 +14,7 @@ namespace UniLibrary.Services
         {
         }
 
-        public async Task<Loan> GetLoanOrDefaultAsync(Expression<Func<Loan, bool>> filter, string includeProperties = null, bool tracked = true)
+        public async Task<Loan> GetLoanOrDefaultAsync(Expression<Func<Loan, bool>> filter, string? includeProperties = null, bool tracked = true)
         {
             if (tracked)
             {
@@ -44,7 +44,7 @@ namespace UniLibrary.Services
             }
         }
 
-        public async Task<IReadOnlyList<Loan>> GetAllLoansAsync(Expression<Func<Loan, bool>> filter = null, Func<IQueryable<Loan>, IOrderedQueryable<Loan>> orderBy = null, params Expression<Func<Loan, object>>[] includeProperties)
+        public async Task<IReadOnlyList<Loan>> GetAllLoansAsync(Expression<Func<Loan, bool>>? filter = null, Func<IQueryable<Loan>, IOrderedQueryable<Loan>>? orderBy = null, params Expression<Func<Loan, object>>[] includeProperties)
         {
             IQueryable<Loan> query = _table;
             if (filter != null)

@@ -61,5 +61,61 @@ namespace UniLibrary.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var user = await _userService.GetUserByIdAsync(id, includeProperties: true);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id, [Bind("ID,StudentID,Name")] User user)
+        {
+            if (id != user.ID)
+            {
+                return NotFound();
+            }
+            try
+            {
+                await _userService.UpdateAsync(user);
+                TempData["Success"] = "Author updated Successfully";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await UserExists(user.ID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    TempData["Error"] = "An Unexpected Error Occured!";
+                }
+            }
+            return View(user);
+        }
+
+        public async Task<bool> UserExists(int id)
+        {
+            return await _userService.GetByIDAsync(id) != null;
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userInDb = await _userService.GetByIDAsync(id);
+            var loanInDb = await _loanService.GetLoanOrDefaultAsync(filter: b => b.UserID == userInDb.ID);
+            if (loanInDb != null)
+            {
+                return Json(new { error = true, message = "You cannot delete this member as long as it has loans referring to it!" });
+            }
+            await _userService.DeleteAsync(id);
+            return Json(new { success = true, message = "User Deleted Successfully." });
+        }
+
     }
 }
