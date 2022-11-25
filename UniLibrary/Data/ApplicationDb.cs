@@ -203,6 +203,83 @@ namespace UniLibrary.Data
                 new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir" },
                 new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert" }
             );
+            modelBuilder.Entity<Room>().HasData(
+                new MeetingRoom
+                {
+                    ID = 1,
+                    Name = "101",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = true
+                },
+                new MeetingRoom
+                {
+                    ID = 2,
+                    Name = "102",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = false
+                },
+                new MeetingRoom
+                {
+                    ID = 3,
+                    Name = "103",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = false
+                },
+                new MeetingRoom
+                {
+                    ID = 4,
+                    Name = "104",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = false
+                },
+                new StudyRoom
+                {
+                    ID = 5,
+                    Name = "201",
+                    Capacity = 12,
+                    Floor = 0,
+                    WhiteBoard = true
+                },
+                new StudyRoom
+                {
+                    ID = 6,
+                    Name = "202",
+                    Capacity = 12,
+                    Floor = 0,
+                    WhiteBoard = false
+                },
+                new ConferenceRoom
+                {
+                    ID = 7,
+                    Name = "301",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = true,
+                    ProjectorCapabilities = false
+                },
+                new ConferenceRoom
+                {
+                    ID = 8,
+                    Name = "302",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = true,
+                    ProjectorCapabilities = false
+                },
+                new ConferenceRoom
+                {
+                    ID = 9,
+                    Name = "303",
+                    Capacity = 12,
+                    Floor = 0,
+                    ZoomCapabilities = true,
+                    ProjectorCapabilities = false
+                }
+            );
         }
 
         public static void ConfigureAuthor(ModelBuilder modelBuilder)

@@ -1,0 +1,19 @@
+using UniLibrary.Models.Utilities;
+
+namespace UniLibrary.Models
+{
+
+    public class Reservation
+    {
+
+        public int ReservationID { get; set; }
+        public DateOnly Date { get; set; }
+        public int UserID { get; set; }
+        public int TimeSlot { get; set; }
+        public Reservation(DateOnly Date, int Slot ) //each slot is representative of a time period
+        {
+
+        }
+    }
+
+}
