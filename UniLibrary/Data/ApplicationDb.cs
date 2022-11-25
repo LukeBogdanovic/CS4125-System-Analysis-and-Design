@@ -206,8 +206,8 @@ namespace UniLibrary.Data
                 new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert" }
             );
             modelBuilder.Entity<Computer>().HasData(
-                new Computer { ID = 1, PCNum = "1", OS = "Windows 11", Availability = true },
-                new Computer { ID = 2, PCNum = "2", OS = "macOS 13", Availability = true }
+                new Computer { ID = 1, PCNum = "001", OS = "Windows 11", Availability = true },
+                new Computer { ID = 2, PCNum = "002", OS = "macOS 13", Availability = true }
             );
         }
 

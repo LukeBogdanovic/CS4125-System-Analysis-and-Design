@@ -23,7 +23,7 @@ namespace UniLibrary.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OS = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Availability = table.Column<bool>(type: "tinyint(30)", maxLength: 30, nullable: false)
+                    Availability = table.Column<bool>(type: "tinyint(30)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,8 +36,8 @@ namespace UniLibrary.Migrations
                 columns: new[] { "ID", "Availability", "OS", "PCNum" },
                 values: new object[,]
                 {
-                    { 1, true, "Windows 11", "1" },
-                    { 2, true, "macOS 13", "2" }
+                    { 1, true, "Windows 11", "001" },
+                    { 2, true, "macOS 13", "002" }
                 });
         }
 

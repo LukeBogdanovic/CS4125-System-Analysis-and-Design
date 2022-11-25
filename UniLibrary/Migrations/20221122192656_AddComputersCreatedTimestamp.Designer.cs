@@ -478,7 +478,6 @@ namespace UniLibrary.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("Availability")
-                        .HasMaxLength(30)
                         .HasColumnType("tinyint(30)");
 
                     b.Property<string>("OS")
@@ -501,14 +500,14 @@ namespace UniLibrary.Migrations
                             ID = 1,
                             Availability = true,
                             OS = "Windows 11",
-                            PCNum = "1"
+                            PCNum = "001"
                         },
                         new
                         {
                             ID = 2,
                             Availability = true,
                             OS = "macOS 13",
-                            PCNum = "2"
+                            PCNum = "002"
                         });
                 });
 
