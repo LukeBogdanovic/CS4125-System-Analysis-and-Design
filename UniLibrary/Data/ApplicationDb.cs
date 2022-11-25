@@ -22,6 +22,7 @@ namespace UniLibrary.Data
             ConfigureBookDetails(modelBuilder);
             ConfigureAuthor(modelBuilder);
             ConfigureBookCopyLoan(modelBuilder);
+            ConfigureComputer(modelBuilder);
             SeedDatabase(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }

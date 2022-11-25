@@ -14,7 +14,7 @@ namespace UniLibrary.Services
         {
         }
 
-        public async Task<IReadOnlyList<Computer>> GetAllBookDetailsAsync(Expression<Func<Computer, bool>>? filter = null, Func<IQueryable<Computer>, IOrderedQueryable<Computer>> orderBy = null, params Expression<Func<Computer, object>>[] includeProperties)
+        public async Task<IReadOnlyList<Computer>> GetAllComputersAsync(Expression<Func<Computer, bool>>? filter = null, Func<IQueryable<Computer>, IOrderedQueryable<Computer>> orderBy = null, params Expression<Func<Computer, object>>[] includeProperties)
         {
             IQueryable<Computer> query = _table;
             if (filter != null)
@@ -35,7 +35,7 @@ namespace UniLibrary.Services
             return await query.ToListAsync();
         }
 
-        public async Task<Computer> GetBookOrDefaultAsync(Expression<Func<Computer, bool>> filter, string includeProperties = null, bool tracked = true)
+        public async Task<Computer> GetComputerOrDefaultAsync(Expression<Func<Computer, bool>> filter, string includeProperties = null, bool tracked = true)
         {
             if (tracked)
             {

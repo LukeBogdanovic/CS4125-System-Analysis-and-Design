@@ -10,8 +10,6 @@ using UniLibrary.Services;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<MvcComputerContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MvcComputerContext") ?? throw new InvalidOperationException("Connection string 'MvcComputerContext' not found.")));
 builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = builder.Configuration["Auth0:Domain"];
@@ -20,6 +18,7 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
 // Add services to the container.
+builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookCopyLoanService, BookCopyLoanService>();

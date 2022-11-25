@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using UniLibrary.Data;
 using UniLibrary.Models;
 using UniLibrary.Interfaces;
+using System.Data.Common;
 
 namespace UniLibrary.Controllers
 {
+#nullable disable
     public class ComputersController : Controller
     {
         private readonly IComputerService _computerService;
@@ -23,32 +19,14 @@ namespace UniLibrary.Controllers
         // GET: Computers
         public async Task<IActionResult> Index()
         {
-              return _computerService.Computer != null ? 
-                          View(await _computerService.Computer.ToListAsync()) :
-                          Problem("Entity set 'MvcComputerContext.Computer'  is null.");
-        }
-
-        // GET: Computers/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _computerService.Computer == null)
-            {
-                return NotFound();
-            }
-
-            var computer = await _computerService.Computer
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (computer == null)
-            {
-                return NotFound();
-            }
-
-            return View(computer);
+            var computers = await _computerService.GetAllComputersAsync(filter: null, orderBy: null);
+            return View(computers);
         }
 
         // GET: Computers/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await Task.CompletedTask;
             return View();
         }
 
@@ -57,31 +35,18 @@ namespace UniLibrary.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PCNum,OS,Availability")] Computer computer)
+        public async Task<IActionResult> Create(Computer computer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _computerService.Add(computer);
-                await _computerService.SaveChangesAsync();
+                await _computerService.AddAsync(computer);
+                TempData["Success"] = "Computer Created Successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(computer);
-        }
-
-        // GET: Computers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _computerService.Computer == null)
+            catch (DbException)
             {
-                return NotFound();
+                return View();
             }
-
-            var computer = await _computerService.Computer.FindAsync(id);
-            if (computer == null)
-            {
-                return NotFound();
-            }
-            return View(computer);
         }
 
         // POST: Computers/Edit/5
@@ -95,23 +60,22 @@ namespace UniLibrary.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _computerService.Update(computer);
-                    await _computerService.SaveChangesAsync();
+                    await _computerService.UpdateAsync(computer);
+                    TempData["Success"] = "Computer Updated Successfully.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ComputerExists(computer.ID))
+                    if (await ComputerExists(computer.ID))
                     {
                         return NotFound();
                     }
                     else
                     {
-                        throw;
+                        TempData["Error"] = "An Unexpected Error Occured!";
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -120,45 +84,28 @@ namespace UniLibrary.Controllers
         }
 
         // GET: Computers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _computerService.Computer == null)
+            var computerInDb = await _computerService.GetByIDAsync(id);
+            if (computerInDb.Availability == false)
             {
-                return NotFound();
+                return Json(new { error = true, message = "You cannot Delete this Computer while it is in Use" });
             }
-
-            var computer = await _computerService.Computer
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (computer == null)
-            {
-                return NotFound();
-            }
-
-            return View(computer);
+            await _computerService.DeleteAsync(id);
+            return Json(new { success = true, message = "Computer Deleted Successfully" });
         }
 
-        // POST: Computers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            if (_computerService.Computer == null)
-            {
-                return Problem("Entity set 'MvcComputerContext.Computer'  is null.");
-            }
-            var computer = await _computerService.Computer.FindAsync(id);
-            if (computer != null)
-            {
-                _computerService.Computer.Remove(computer);
-            }
-            
-            await _computerService.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var computers = await _computerService.GetAllComputersAsync();
+            return Json(new { data = computers });
         }
 
-        private bool ComputerExists(int id)
+        private async Task<bool> ComputerExists(int id)
         {
-          return (_computerService.Computer?.Any(e => e.ID == id)).GetValueOrDefault();
+            return await _computerService.GetByIDAsync(id) != null;
         }
     }
 }
