@@ -35,7 +35,7 @@ namespace UniLibrary.Services
             return await query.ToListAsync();
         }
 
-        public async Task<BookDetails> GetBookOrDefaultAsync(Expression<Func<BookDetails, bool>> filter, string? includeProperties = null, bool tracked = true)
+        public BookDetails GetBookOrDefault(Expression<Func<BookDetails, bool>> filter, string includeProperties = null, bool tracked = true)
         {
             if (tracked)
             {

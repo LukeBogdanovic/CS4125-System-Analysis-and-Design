@@ -4,9 +4,9 @@ namespace UniLibrary.Models.Utilities
 {
     public class SelectListComparer : IEqualityComparer<SelectListItem>
     {
-        public bool Equals(SelectListItem x, SelectListItem y)
+        public bool Equals(SelectListItem? x, SelectListItem? y)
         {
-            return x.Text == y.Text;
+            return x!.Text == y!.Text;
         }
 
         public int GetHashCode(SelectListItem item)

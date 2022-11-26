@@ -13,7 +13,7 @@ namespace UniLibrary.Models
         public double Fee { get; set; }
         public List<BookCopyLoan>? BookCopyLoans { get; set; }
         public int UserID { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public Loan()
         {

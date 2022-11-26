@@ -108,7 +108,7 @@ namespace UniLibrary.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var userInDb = await _userService.GetByIDAsync(id);
-            var loanInDb = await _loanService.GetLoanOrDefaultAsync(filter: b => b.UserID == userInDb.ID);
+            var loanInDb = _loanService.GetLoanOrDefault(filter: b => b.UserID == userInDb.ID);
             if (loanInDb != null)
             {
                 return Json(new { error = true, message = "You cannot delete this member as long as it has loans referring to it!" });

@@ -132,7 +132,7 @@ namespace UniLibrary.Controllers
             };
 
             // update the bookdetails variable of the BookDetailsViewModel object
-            model.BookDetails = await _bookService.GetBookOrDefaultAsync(b => b.ID == id, includeProperties: "Copies");
+            model.BookDetails = _bookService.GetBookOrDefault(b => b.ID == id, includeProperties: "Copies");
             return View(model);
         }
 
@@ -175,7 +175,7 @@ namespace UniLibrary.Controllers
             IReadOnlyList<BookCopy> bookCopies = await _bookCopyService.GetAllBookCopiesAsync(x => x.DetailsID == id);
             BookDetailsViewModel model = new()
             {
-                BookDetails = await _bookService.GetBookOrDefaultAsync(x => x.ID == id, "Author"),
+                BookDetails = _bookService.GetBookOrDefault(x => x.ID == id, "Author"),
                 BookCopies = bookCopies.Select(i => new SelectListItem
                 {
                     Text = i.BookCopyID.ToString(),
@@ -223,12 +223,12 @@ namespace UniLibrary.Controllers
         {
             try
             {
-                BookDetails book = await _bookService.GetBookOrDefaultAsync(c => c.ID == id, includeProperties: "Author");
+                BookDetails book = _bookService.GetBookOrDefault(c => c.ID == id, includeProperties: "Author");
                 //Create new book
                 BookCopy copy = new()
                 {
                     DetailsID = book.ID,
-                    Details = await _bookService.GetBookOrDefaultAsync(b => b.ID == id),
+                    Details = _bookService.GetBookOrDefault(b => b.ID == id),
                     IsAvailable = true,
                 };
                 BookCopy addedCopy = await _bookCopyService.AddAsync(copy);
@@ -248,7 +248,7 @@ namespace UniLibrary.Controllers
             if (id != 0)
             {
                 var bookCopyInDb = await _bookCopyService.GetBookCopyOrDefaultAsync(filter: b => b.BookCopyID == id);
-                var boocopyLoan = await _bookCopyLoanService.GetBookCopyLoanOrDefaultAsync(x => x.BookCopyID == bookCopyInDb.BookCopyID);
+                var boocopyLoan = _bookCopyLoanService.GetBookCopyLoanOrDefault(x => x.BookCopyID == bookCopyInDb.BookCopyID);
                 // Check if book copy is loaned
                 if (boocopyLoan != null)
                 {
@@ -271,7 +271,7 @@ namespace UniLibrary.Controllers
                 List<BookCopy> bookCopiesTobeDeleted = new List<BookCopy>();
                 foreach (var bookCopy in bookCopiesInDb)
                 {
-                    var bookcopyLoan = await _bookCopyLoanService.GetBookCopyLoanOrDefaultAsync(x => x.BookCopyID == bookCopy.BookCopyID);
+                    var bookcopyLoan = _bookCopyLoanService.GetBookCopyLoanOrDefault(x => x.BookCopyID == bookCopy.BookCopyID);
                     // Check if book copy is loaned
                     if (bookcopyLoan == null)
                     {
@@ -298,14 +298,14 @@ namespace UniLibrary.Controllers
         {
             if (id != 0)
             {
-                var bookInDB = await _bookService.GetBookOrDefaultAsync(b => b.ID == id);
+                var bookInDB = _bookService.GetBookOrDefault(b => b.ID == id);
                 var bookCopiesInDb = await _bookCopyService.GetAllBookCopiesAsync(filter: c => c.DetailsID == bookInDB.ID);
                 List<BookCopy> bookCopiesTobeDeleted = new List<BookCopy>();
                 foreach (var bookCopy in bookCopiesInDb)
                 {
-                    var boocopyLoan = await _bookCopyLoanService.GetBookCopyLoanOrDefaultAsync(x => x.BookCopyID == bookCopy.BookCopyID);
+                    var bookcopyLoan = _bookCopyLoanService.GetBookCopyLoanOrDefault(x => x.BookCopyID == bookCopy.BookCopyID);
                     // Check if book copy is loaned
-                    if (boocopyLoan == null)
+                    if (bookcopyLoan == null)
                     {
                         bookCopiesTobeDeleted.Add(bookCopy);
                     }

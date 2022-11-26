@@ -91,7 +91,7 @@ namespace UniLibrary.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var authorInDb = await _authorService.GetByIDAsync(id);
-            var bookInDb = await _bookService.GetBookOrDefaultAsync(filter: b => b.Author.ID == authorInDb.ID);
+            var bookInDb = _bookService.GetBookOrDefault(filter: b => b.Author.ID == authorInDb.ID);
             if (bookInDb != null)
             {
                 return Json(new { error = true, message = "You cannot delete this author while there are books referring to it" });

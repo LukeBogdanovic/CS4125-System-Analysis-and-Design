@@ -45,7 +45,7 @@ namespace UniLibrary.Controllers
             }
             foreach (var loan in model.Loans)
             {
-                model.Loan = await _loanService.GetLoanOrDefaultAsync(x => x.LoanID == loan.LoanID, includeProperties: "BookCopyLoans");
+                model.Loan = _loanService.GetLoanOrDefault(x => x.LoanID == loan.LoanID, includeProperties: "BookCopyLoans");
                 model.BookCopyLoans = await _bookCopyLoanService.GetAllBookCopyLoansAsync(filter: l => (l.LoanID == loan.LoanID), orderBy: null, b => b.Loan, b => b.BookCopy);
                 if (model.Loan.ReturnDate == DateTime.MinValue)
                 {

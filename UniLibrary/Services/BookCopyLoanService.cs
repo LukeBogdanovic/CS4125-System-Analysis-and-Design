@@ -43,12 +43,11 @@ namespace UniLibrary.Services
             return await query.ToListAsync();
         }
 
-        public async Task<BookCopyLoan> GetBookCopyLoanOrDefaultAsync(Expression<Func<BookCopyLoan, bool>> filter, string? includeProperties = null, bool tracked = true)
+        public BookCopyLoan GetBookCopyLoanOrDefault(Expression<Func<BookCopyLoan, bool>> filter, string? includeProperties = null, bool tracked = true)
         {
             if (tracked)
             {
                 IQueryable<BookCopyLoan> query = _table;
-
                 query = query.Where(filter);
                 if (includeProperties != null)
                 {
@@ -57,13 +56,11 @@ namespace UniLibrary.Services
                         query = query.Include(includeProp);
                     }
                 }
-
-                return query.FirstOrDefault();
+                return query.FirstOrDefault()!;
             }
             else
             {
                 IQueryable<BookCopyLoan> query = _table.AsNoTracking();
-
                 query = query.Where(filter);
                 if (includeProperties != null)
                 {
@@ -72,8 +69,7 @@ namespace UniLibrary.Services
                         query = query.Include(includeProp);
                     }
                 }
-
-                return query.FirstOrDefault();
+                return query.FirstOrDefault()!;
             }
         }
 
