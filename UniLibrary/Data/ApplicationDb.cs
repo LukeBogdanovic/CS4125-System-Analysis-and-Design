@@ -151,12 +151,12 @@ namespace UniLibrary.Data
                 );
 
             modelBuilder.Entity<Loan>().HasData(
-                new Loan { LoanID = 1, MemberID = 3, StartDate = new DateTime(2022, 1, 5), DueDate = new DateTime(2022, 1, 19), ReturnDate = new DateTime(2022, 1, 19), Fee = 0 },
-                new Loan { LoanID = 2, MemberID = 1, StartDate = new DateTime(2022, 1, 19), DueDate = new DateTime(2022, 2, 2), ReturnDate = new DateTime(2022, 2, 6), Fee = 24 },
-                new Loan { LoanID = 3, MemberID = 2, StartDate = new DateTime(2022, 1, 3), DueDate = new DateTime(2022, 1, 17), ReturnDate = new DateTime(2022, 1, 16), Fee = 0 },
-                new Loan { LoanID = 4, MemberID = 2, StartDate = new DateTime(2022, 1, 30), DueDate = new DateTime(2022, 2, 13) },
-                new Loan { LoanID = 5, MemberID = 4, StartDate = new DateTime(2022, 1, 29), DueDate = new DateTime(2022, 2, 12) },
-                new Loan { LoanID = 6, MemberID = 5, StartDate = new DateTime(2022, 3, 2), DueDate = new DateTime(2022, 3, 16) }
+                new Loan { LoanID = 1, UserID = 3, StartDate = new DateTime(2022, 1, 5), DueDate = new DateTime(2022, 1, 19), ReturnDate = new DateTime(2022, 1, 19), Fee = 0 },
+                new Loan { LoanID = 2, UserID = 1, StartDate = new DateTime(2022, 1, 19), DueDate = new DateTime(2022, 2, 2), ReturnDate = new DateTime(2022, 2, 6), Fee = 24 },
+                new Loan { LoanID = 3, UserID = 2, StartDate = new DateTime(2022, 1, 3), DueDate = new DateTime(2022, 1, 17), ReturnDate = new DateTime(2022, 1, 16), Fee = 0 },
+                new Loan { LoanID = 4, UserID = 2, StartDate = new DateTime(2022, 1, 30), DueDate = new DateTime(2022, 2, 13) },
+                new Loan { LoanID = 5, UserID = 4, StartDate = new DateTime(2022, 1, 29), DueDate = new DateTime(2022, 2, 12) },
+                new Loan { LoanID = 6, UserID = 5, StartDate = new DateTime(2022, 3, 2), DueDate = new DateTime(2022, 3, 16) }
             );
             modelBuilder.Entity<BookCopy>().HasData(
                 new BookCopy { BookCopyID = 1, DetailsID = 1, IsAvailable = true },
