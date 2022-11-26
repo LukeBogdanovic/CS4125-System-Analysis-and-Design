@@ -15,17 +15,17 @@ namespace UniLibrary.Services
             _context = context;
             _table = context.Set<T>();
         }
-
+        // Converts all rows of a table in database to a List
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
             return await _table.ToListAsync();
         }
-
+        // Converts the row found by id to A List
         public async Task<T> GetByIDAsync(int id)
         {
             return await _table.FindAsync(id);
         }
-
+        // Adds the specified row to the database table corresponding to the class
         public async Task<T> AddAsync(T entity)
         {
             await _table.AddAsync(entity);
@@ -33,7 +33,7 @@ namespace UniLibrary.Services
 
             return entity;
         }
-
+        // Updates the specified row of the database table corresponding to the class
         public async Task<T> UpdateAsync(T entity)
         {
             _table.Attach(entity);
@@ -42,7 +42,7 @@ namespace UniLibrary.Services
 
             return entity;
         }
-
+        // Deletes the specified row of the database table corresponding to the class
         public async Task<T> DeleteAsync(int id)
         {
             var entity = await GetByIDAsync(id);

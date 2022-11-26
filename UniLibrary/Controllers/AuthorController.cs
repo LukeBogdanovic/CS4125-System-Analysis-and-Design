@@ -36,9 +36,9 @@ namespace UniLibrary.Controllers
         {
             try
             {
-                await _authorService.AddAsync(author);
+                await _authorService.AddAsync(author);// Adding author to the database
                 TempData["Success"] = "Author created Successfully.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect from the create page to the Index of the Authors controller
             }
             catch (DbException)
             {
@@ -74,7 +74,7 @@ namespace UniLibrary.Controllers
             }
             return View(author);
         }
-
+        // Check for if an author already exists in the database
         private async Task<bool> AuthorExists(int id)
         {
             return await _authorService.GetByIDAsync(id) != null;
