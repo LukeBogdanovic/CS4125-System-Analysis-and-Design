@@ -15,12 +15,14 @@ namespace UniLibrary.Data
         public DbSet<BookCopy>? BookCopies { get; set; }
         public DbSet<Loan>? Loans { get; set; }
         public DbSet<User>? Users { get; set; }
+        public DbSet<Computer>? Computers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ConfigureBookDetails(modelBuilder);
             ConfigureAuthor(modelBuilder);
             ConfigureBookCopyLoan(modelBuilder);
+            ConfigureComputer(modelBuilder);
             SeedDatabase(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
@@ -280,6 +282,10 @@ namespace UniLibrary.Data
                     ProjectorCapabilities = false
                 }
             );
+            modelBuilder.Entity<Computer>().HasData(
+                new Computer { ID = 1, PCNum = "001", OS = "Windows 11", Availability = true },
+                new Computer { ID = 2, PCNum = "002", OS = "macOS 13", Availability = true }
+            );
         }
 
         public static void ConfigureAuthor(ModelBuilder modelBuilder)
@@ -298,6 +304,11 @@ namespace UniLibrary.Data
             modelBuilder.Entity<BookCopyLoan>().HasKey(x => new { x.BookCopyID, x.LoanID });
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.BookCopy).WithMany(p => p.BookCopyLoans).HasForeignKey(pt => pt.BookCopyID);
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.Loan).WithMany(t => t.BookCopyLoans).HasForeignKey(pt => pt.LoanID);
+        }
+
+        public static void ConfigureComputer(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Computer>().HasKey(x => x.ID);
         }
 
     }

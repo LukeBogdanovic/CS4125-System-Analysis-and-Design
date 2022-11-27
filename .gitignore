@@ -2,6 +2,8 @@ UniLibrary/.vscode
 UniLibrary/bin
 UniLibrary/obj
 UniLibrary/Properties
+.vscode/launch.json
+.vscode/tasks.json
 UniLibrary/.vs/UniLibrary/v17/.suo
 UniLibrary/.vs/UniLibrary/v17/.futdcache.v2
 UniLibrary/.vs/UniLibrary/FileContentIndex/read.lock
