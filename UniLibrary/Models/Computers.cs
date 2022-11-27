@@ -23,8 +23,6 @@ namespace UniLibrary.Models
         [Required]
         public bool Availability { get; set; }   
     }
-
-    Computer s = new Computer();
 }
 
 
