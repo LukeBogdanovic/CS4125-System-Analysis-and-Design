@@ -1,0 +1,42 @@
+@model IEnumerable<UniLibrary.Models.Computer>
+
+@{
+    ViewData["Title"] = "Computers";
+}
+
+<div class="p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Computers</h2>
+        </div>
+
+        <div class="col-6 text-right">
+            <a class="btn btn-primary" asp-controller="Computers" asp-action="Create">
+                <i class="bi bi-plus-circle"></i> &nbsp; New
+            </a>
+        </div>
+    </div>
+    <br />
+    <table id="computers" class="table table-striped table-hover w-100">
+        <thead>
+            <tr class="bg-light">
+                <th>
+                    @Html.DisplayName("Computer Number")
+                </th>
+                <th>
+                    @Html.DisplayName("Operating System")
+                </th>
+                <th>
+                    @Html.DisplayName("Availability")
+                </th>
+                <th></th>
+
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts
+{
+<script src="~/js/computers.js"></script>
+}

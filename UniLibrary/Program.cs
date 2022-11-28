@@ -14,6 +14,7 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
 // Add services to the container.
+builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookCopyLoanService, BookCopyLoanService>();
