@@ -19,6 +19,48 @@ namespace UniLibrary.Migrations
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.HasSequence<int>("RoomIds")
+                .StartsAt(10L);
+
+            modelBuilder.Entity("UniLibrary.Factories.Functionality", b =>
+                {
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.ToTable("Functionality");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Functionality");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("UniLibrary.Factories.Room", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR RoomIds");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ID");
+
+                    b.ToTable((string)null);
+
+                    b.UseTpcMappingStrategy();
+                });
+
             modelBuilder.Entity("UniLibrary.Models.Author", b =>
                 {
                     b.Property<int>("ID")
@@ -475,6 +517,7 @@ namespace UniLibrary.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("Availability")
+                        .HasMaxLength(30)
                         .HasColumnType("tinyint(30)");
 
                     b.Property<string>("OS")
@@ -650,6 +693,152 @@ namespace UniLibrary.Migrations
                             ID = 5,
                             Name = "Linus Reichert",
                             StudentID = "19555664"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ComputerClassFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ComputerClassFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ComputerFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ComputerFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ConferenceFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ConferenceFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.DisplayFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("DisplayFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.NoAccessibilityFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("NoAccessibilityFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.PowerFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("PowerFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.WhiteBoardFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("WhiteBoardFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ZoomFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ZoomFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.ConferenceRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("ConferenceRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 7,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "301"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "302"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "303"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.MeetingRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("MeetingRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "101"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "102"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "103"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "104"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.StudyRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("StudyRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 5,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "201"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "202"
                         });
                 });
 

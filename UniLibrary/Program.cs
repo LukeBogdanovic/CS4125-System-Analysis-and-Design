@@ -25,6 +25,7 @@ builder.Services.AddScoped<IBookCopyLoanService, BookCopyLoanService>();
 builder.Services.AddScoped<IBookCopyService, BookCopyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 var app = builder.Build();

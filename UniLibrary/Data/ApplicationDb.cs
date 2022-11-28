@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UniLibrary.Models;
 using UniLibrary.Factories;
+using UniLibrary.Models.RoomFunctionalities;
 
 namespace UniLibrary.Data
 {
@@ -17,6 +18,7 @@ namespace UniLibrary.Data
         public DbSet<Loan>? Loans { get; set; }
         public DbSet<User>? Users { get; set; }
         public DbSet<Computer>? Computers { get; set; }
+        public DbSet<Room>? Rooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -236,43 +238,45 @@ namespace UniLibrary.Data
                     Name = "104",
                     Capacity = 12,
                     Floor = 0,
-                // },
-                // new StudyRoom
-                // {
-                //     ID = 5,
-                //     Name = "201",
-                //     Capacity = 12,
-                //     Floor = 0,
-                // },
-                // new StudyRoom
-                // {
-                //     ID = 6,
-                //     Name = "202",
-                //     Capacity = 12,
-                //     Floor = 0,
-                // },
-                // new ConferenceRoom
-                // {
-                //     ID = 7,
-                //     Name = "301",
-                //     Capacity = 12,
-                //     Floor = 0,
-                // },
-                // new ConferenceRoom
-                // {
-                //     ID = 8,
-                //     Name = "302",
-                //     Capacity = 12,
-                //     Floor = 0,
-                // },
-                // new ConferenceRoom
-                // {
-                //     ID = 9,
-                //     Name = "303",
-                //     Capacity = 12,
-                //     Floor = 0,
                 }
             );
+            modelBuilder.Entity<StudyRoom>().HasData(
+                new StudyRoom
+                {
+                    ID = 5,
+                    Name = "201",
+                    Capacity = 12,
+                    Floor = 0,
+                },
+                new StudyRoom
+                {
+                    ID = 6,
+                    Name = "202",
+                    Capacity = 12,
+                    Floor = 0,
+                });
+            modelBuilder.Entity<ConferenceRoom>().HasData(
+                new ConferenceRoom
+                {
+                    ID = 7,
+                    Name = "301",
+                    Capacity = 12,
+                    Floor = 0,
+                },
+                new ConferenceRoom
+                {
+                    ID = 8,
+                    Name = "302",
+                    Capacity = 12,
+                    Floor = 0,
+                },
+                new ConferenceRoom
+                {
+                    ID = 9,
+                    Name = "303",
+                    Capacity = 12,
+                    Floor = 0,
+                });
             modelBuilder.Entity<Computer>().HasData(
                 new Computer { ID = 1, PCNum = "001", OS = "Windows 11", Availability = true },
                 new Computer { ID = 2, PCNum = "002", OS = "macOS 13", Availability = true }
@@ -304,11 +308,21 @@ namespace UniLibrary.Data
 
         public static void ConfigureRooms(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MeetingRoom>().HasKey(x => x.ID);
+            modelBuilder.HasSequence<int>("RoomIds").StartsAt(10);
+            modelBuilder.Entity<Room>().UseTpcMappingStrategy().Property(e => e.ID).HasDefaultValueSql("NEXT VALUE FOR RoomIds");
         }
+
         public static void ConfigureFunctionality(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Functionality>().HasNoKey();
+            modelBuilder.Entity<ZoomFunctionality>();
+            modelBuilder.Entity<PowerFunctionality>();
+            modelBuilder.Entity<DisplayFunctionality>();
+            modelBuilder.Entity<ComputerFunctionality>();
+            modelBuilder.Entity<ConferenceFunctionality>();
+            modelBuilder.Entity<WhiteBoardFunctionality>();
+            modelBuilder.Entity<ComputerClassFunctionality>();
+            modelBuilder.Entity<NoAccessibilityFunctionality>();
         }
 
     }

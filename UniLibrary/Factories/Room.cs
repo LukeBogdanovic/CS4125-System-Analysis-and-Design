@@ -12,21 +12,21 @@ namespace UniLibrary.Factories
         public int Capacity { get; set; } = 4;
         public int Floor {get; set;}
 
-		public string Description{get; set;}
+		public string? Description{get; set;}
 	
-		private List<Functionality> _RoomFunctionalities ;
+		public List<Functionality> RoomFunctionalities ;
 
 		protected Room()
 		{
-			_RoomFunctionalities = new List<Functionality>();
+			RoomFunctionalities = new List<Functionality>();
 			InitializeFunctionality();
 		}
     	protected abstract void InitializeFunctionality();
-		public IEnumerable<Functionality> Functionalities => _RoomFunctionalities;
+		// public IEnumerable<Functionality> Functionalities => _RoomFunctionalities;
 
         protected void AddFunctionality(Functionality functionality)
 		{
-			if (!_RoomFunctionalities.Contains(functionality)) _RoomFunctionalities.Add(functionality);
+			if (!RoomFunctionalities.Contains(functionality)) RoomFunctionalities.Add(functionality);
 		}
         protected void AddFunctionalities(params Functionality[] functionalities)
 		{
