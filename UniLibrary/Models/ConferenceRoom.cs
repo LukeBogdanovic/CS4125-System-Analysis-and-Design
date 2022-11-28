@@ -1,11 +1,17 @@
-using UniLibrary.Models.Utilities;
+using UniLibrary.Factories;
+using UniLibrary.Models.RoomFunctionalities;
 
 namespace UniLibrary.Models
 {
 
-    class ConferenceRoom : Room
+    public class ConferenceRoom : Room
     {
-        public Boolean ProjectorCapabilities {get; set;}
-        public Boolean ZoomCapabilities {get; set;}
+        protected override void InitializeFunctionality(){
+            AddFunctionalities(new DisplayFunctionality(),
+                                    new ComputerFunctionality(),
+                                    new ZoomFunctionality(),
+                                    // new ConferenceFunctionality(),
+                                    new NoAccessibilityFunctionality());
+        }
     }
 }

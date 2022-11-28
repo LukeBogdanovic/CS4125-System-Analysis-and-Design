@@ -1,22 +1,24 @@
 using UniLibrary.Models.Utilities;
 using UniLibrary.Interfaces;
+using UniLibrary.Models.Enums;
+using UniLibrary.Factories;
 
 namespace UniLibrary.Models
 {
-    public class RoomConcreteFactory : RoomAbstractFactory
+    public static class RoomConcreteFactory
     {
-        public override IRoom CreateRoom(string RoomType)
+        public static Room getRoom(Rooms RoomType)
         {
             switch(RoomType)
             {
-                case "Conference":
-                return new ConferenceRoom()
-                case "Computer":
-                return new ComputerRoom()
-                case "Meeting":
-                return new MeetingRoom()
-                case "Study":
-                return new StudyRoom()
+                case Rooms.ConferenceRoom:
+                return new ConferenceRoom();
+                case Rooms.ComputerRoom:
+                return new ComputerClassRoom();
+                case Rooms.MeetingRoom:
+                return new MeetingRoom();
+                case Rooms.StudyRoom:
+                return new StudyRoom();
                 default:
                 throw new ApplicationException(string.Format("Room cannot be created ", RoomType));
             }

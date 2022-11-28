@@ -1,9 +1,12 @@
-using System.ComponentModel.DataAnnotations;
+using UniLibrary.Factories;
+using UniLibrary.Models.RoomFunctionalities;
 
 namespace UniLibrary.Models
 {
-class MeetingRoom : Room
+public class MeetingRoom : Room
     {
-        public Boolean ZoomCapabilities {get; set;}
+        protected override void InitializeFunctionality(){
+            AddFunctionalities(new DisplayFunctionality(),new WhiteBoardFunctionality(),new ComputerFunctionality(),new ZoomFunctionality(),new NoAccessibilityFunctionality());
+        }
     }
 }

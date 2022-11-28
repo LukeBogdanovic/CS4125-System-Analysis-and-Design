@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UniLibrary.Models;
+using UniLibrary.Factories;
 
 namespace UniLibrary.Data
 {
@@ -23,6 +24,8 @@ namespace UniLibrary.Data
             ConfigureAuthor(modelBuilder);
             ConfigureBookCopyLoan(modelBuilder);
             ConfigureComputer(modelBuilder);
+            ConfigureRooms(modelBuilder);
+            ConfigureFunctionality(modelBuilder);
             SeedDatabase(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
@@ -205,14 +208,13 @@ namespace UniLibrary.Data
                 new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir" },
                 new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert" }
             );
-            modelBuilder.Entity<Room>().HasData(
+            modelBuilder.Entity<MeetingRoom>().HasData(
                 new MeetingRoom
                 {
                     ID = 1,
                     Name = "101",
                     Capacity = 12,
                     Floor = 0,
-                    ZoomCapabilities = true
                 },
                 new MeetingRoom
                 {
@@ -220,7 +222,6 @@ namespace UniLibrary.Data
                     Name = "102",
                     Capacity = 12,
                     Floor = 0,
-                    ZoomCapabilities = false
                 },
                 new MeetingRoom
                 {
@@ -228,7 +229,6 @@ namespace UniLibrary.Data
                     Name = "103",
                     Capacity = 12,
                     Floor = 0,
-                    ZoomCapabilities = false
                 },
                 new MeetingRoom
                 {
@@ -236,50 +236,41 @@ namespace UniLibrary.Data
                     Name = "104",
                     Capacity = 12,
                     Floor = 0,
-                    ZoomCapabilities = false
-                },
-                new StudyRoom
-                {
-                    ID = 5,
-                    Name = "201",
-                    Capacity = 12,
-                    Floor = 0,
-                    WhiteBoard = true
-                },
-                new StudyRoom
-                {
-                    ID = 6,
-                    Name = "202",
-                    Capacity = 12,
-                    Floor = 0,
-                    WhiteBoard = false
-                },
-                new ConferenceRoom
-                {
-                    ID = 7,
-                    Name = "301",
-                    Capacity = 12,
-                    Floor = 0,
-                    ZoomCapabilities = true,
-                    ProjectorCapabilities = false
-                },
-                new ConferenceRoom
-                {
-                    ID = 8,
-                    Name = "302",
-                    Capacity = 12,
-                    Floor = 0,
-                    ZoomCapabilities = true,
-                    ProjectorCapabilities = false
-                },
-                new ConferenceRoom
-                {
-                    ID = 9,
-                    Name = "303",
-                    Capacity = 12,
-                    Floor = 0,
-                    ZoomCapabilities = true,
-                    ProjectorCapabilities = false
+                // },
+                // new StudyRoom
+                // {
+                //     ID = 5,
+                //     Name = "201",
+                //     Capacity = 12,
+                //     Floor = 0,
+                // },
+                // new StudyRoom
+                // {
+                //     ID = 6,
+                //     Name = "202",
+                //     Capacity = 12,
+                //     Floor = 0,
+                // },
+                // new ConferenceRoom
+                // {
+                //     ID = 7,
+                //     Name = "301",
+                //     Capacity = 12,
+                //     Floor = 0,
+                // },
+                // new ConferenceRoom
+                // {
+                //     ID = 8,
+                //     Name = "302",
+                //     Capacity = 12,
+                //     Floor = 0,
+                // },
+                // new ConferenceRoom
+                // {
+                //     ID = 9,
+                //     Name = "303",
+                //     Capacity = 12,
+                //     Floor = 0,
                 }
             );
             modelBuilder.Entity<Computer>().HasData(
@@ -309,6 +300,15 @@ namespace UniLibrary.Data
         public static void ConfigureComputer(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Computer>().HasKey(x => x.ID);
+        }
+
+        public static void ConfigureRooms(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MeetingRoom>().HasKey(x => x.ID);
+        }
+        public static void ConfigureFunctionality(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Functionality>().HasNoKey();
         }
 
     }

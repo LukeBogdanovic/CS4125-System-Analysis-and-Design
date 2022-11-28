@@ -1,0 +1,51 @@
+@* @model UniLibrary.Factories.Room;
+@using UniLibrary.Models.Enums;
+
+@{
+    ViewData["Title"] = "Create";
+#pragma warning disable
+}
+
+<h1 class="text-primary mx-2">Create Book</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group  mb-3 col-12">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="row mx-1">
+                <div class="form-group  mb-3 col-6">
+                    <label asp-for="Capacity" class="control-label"></label>
+                    <input asp-for="Capacity" class="form-control" />
+                    <span asp-validation-for="Capacity" class="jonas-fula-text"></span>
+                </div>
+                <div class="form-group  mb-3 col-6">
+                    <label asp-for="Rooms" class="control-label"></label>
+                    <select asp-for="Rooms" asp-items="@Rooms" class="form-control">
+                        <option class="Rooms" disabled selected>--Select RoomType--</option>
+                    </select>
+                    <span asp-validation-for="AuthorID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group  mb-3 col-12">
+                <label asp-for="Floor" class="control-label"></label>
+                <input asp-for="Floor" class="form-control" />
+                <span asp-validation-for="Floor" class="text-danger"></span>
+            </div>
+            <div class="form-group  mt-3  mx-3">
+                <input type="submit" value="Create" class="btn btn-primary" /> |
+                <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+} *@
