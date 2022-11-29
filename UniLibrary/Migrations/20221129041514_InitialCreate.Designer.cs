@@ -11,7 +11,7 @@ using UniLibrary.Data;
 namespace UniLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221122234353_InitialCreate")]
+    [Migration("20221129041514_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,6 +21,48 @@ namespace UniLibrary.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.HasSequence<int>("RoomIds")
+                .StartsAt(10L);
+
+            modelBuilder.Entity("UniLibrary.Factories.Functionality", b =>
+                {
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.ToTable("Functionality");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Functionality");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("UniLibrary.Factories.Room", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR RoomIds");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ID");
+
+                    b.ToTable((string)null);
+
+                    b.UseTpcMappingStrategy();
+                });
 
             modelBuilder.Entity("UniLibrary.Models.Author", b =>
                 {
@@ -471,6 +513,47 @@ namespace UniLibrary.Migrations
                         });
                 });
 
+            modelBuilder.Entity("UniLibrary.Models.Computer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Availability")
+                        .HasMaxLength(30)
+                        .HasColumnType("tinyint(30)");
+
+                    b.Property<string>("OS")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("PCNum")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Computers");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Availability = true,
+                            OS = "Windows 11",
+                            PCNum = "001"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Availability = true,
+                            OS = "macOS 13",
+                            PCNum = "002"
+                        });
+                });
+
             modelBuilder.Entity("UniLibrary.Models.Loan", b =>
                 {
                     b.Property<int>("LoanID")
@@ -483,13 +566,16 @@ namespace UniLibrary.Migrations
                     b.Property<double>("Fee")
                         .HasColumnType("double");
 
+                    b.Property<int>("MemberID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("LoanID");
@@ -504,54 +590,54 @@ namespace UniLibrary.Migrations
                             LoanID = 1,
                             DueDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
+                            MemberID = 3,
                             ReturnDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = 3
+                            StartDate = new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             LoanID = 2,
                             DueDate = new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 24.0,
+                            MemberID = 1,
                             ReturnDate = new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = 1
+                            StartDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             LoanID = 3,
                             DueDate = new DateTime(2022, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
+                            MemberID = 2,
                             ReturnDate = new DateTime(2022, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = 2
+                            StartDate = new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             LoanID = 4,
                             DueDate = new DateTime(2022, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
+                            MemberID = 2,
                             ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = 2
+                            StartDate = new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             LoanID = 5,
                             DueDate = new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
+                            MemberID = 4,
                             ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = 4
+                            StartDate = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             LoanID = 6,
                             DueDate = new DateTime(2022, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
+                            MemberID = 5,
                             ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = 5
+                            StartDate = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -613,6 +699,152 @@ namespace UniLibrary.Migrations
                         });
                 });
 
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ComputerClassFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ComputerClassFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ComputerFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ComputerFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ConferenceFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ConferenceFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.DisplayFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("DisplayFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.NoAccessibilityFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("NoAccessibilityFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.PowerFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("PowerFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.WhiteBoardFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("WhiteBoardFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ZoomFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ZoomFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.ConferenceRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("ConferenceRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 7,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "301"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "302"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "303"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.MeetingRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("MeetingRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "101"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "102"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "103"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "104"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.StudyRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("StudyRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 5,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "201"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "202"
+                        });
+                });
+
             modelBuilder.Entity("UniLibrary.Models.BookCopy", b =>
                 {
                     b.HasOne("UniLibrary.Models.BookDetails", "Details")
@@ -658,9 +890,7 @@ namespace UniLibrary.Migrations
                 {
                     b.HasOne("UniLibrary.Models.User", null)
                         .WithMany("Loans")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("UniLibrary.Models.Author", b =>

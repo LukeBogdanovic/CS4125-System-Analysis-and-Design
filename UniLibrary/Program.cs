@@ -11,7 +11,7 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
     options.ClientId = builder.Configuration["Auth0:ClientId"];
 });
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), MariaDbServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
 // Add services to the container.
 builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
@@ -20,6 +20,7 @@ builder.Services.AddScoped<IBookCopyLoanService, BookCopyLoanService>();
 builder.Services.AddScoped<IBookCopyService, BookCopyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddRazorPages();
