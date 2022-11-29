@@ -12,12 +12,13 @@
 
         <div class="col-6 text-right">
             <a class="btn btn-primary" asp-controller="User" asp-action="Create">
-                <i class="bi bi-plus-circle"></i> &nbsp; New
+                <em class="bi bi-plus-circle"></em> &nbsp; New
             </a>
         </div>
     </div>
     <br />
     <table id="members" class="table table-hover">
+        <caption></caption>
         <thead>
             <tr class="bg-light">
                 <th>
@@ -55,8 +56,8 @@
                         </td>
                     }
                     <td colspan="2" class="text-right">
-                        <a class="btn-link mx-2 js-delete" data-user-id=@user.ID><i class='bi bi-trash-fill'
-                            style='color: #ff4136; cursor:pointer;'></i></a>
+                        <a class="btn-link mx-2 js-delete" data-user-id=@user.ID><em class='bi bi-trash-fill'
+                            style='color: #ff4136; cursor:pointer;'></em></a>
                     </td>
                 </tr>
             }

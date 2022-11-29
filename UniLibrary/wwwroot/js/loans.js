@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function loadData() {
   $("#loans").on("click", ".js-delete", function () {
-    var button = $(this);
+    let button = $(this);
     Swal.fire({
       title: `You are about to delete this loan record from the database. Are you sure you want to process this action?`,
       text: `You won't be able to revert this!`,

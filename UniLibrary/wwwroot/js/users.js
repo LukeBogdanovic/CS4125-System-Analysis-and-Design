@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $("#users").on("click", ".js-delete", function () {
-    var button = $(this);
+    let button = $(this);
     Swal.fire({
       title: `Are you sure you want to delete this user ?`,
       icon: "warning",
