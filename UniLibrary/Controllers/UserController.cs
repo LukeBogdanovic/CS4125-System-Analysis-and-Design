@@ -1,19 +1,21 @@
 using UniLibrary.Interfaces;
 using UniLibrary.Models;
-using Microsoft.AspNetCore.Mvc;
+using UniLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
-using System.Security.Cryptography;
+using System.Security.Claims;
+using BCrypt.Net;
 
 namespace UniLibrary.Controllers
 {
 #nullable disable
-    public class UserController : Controller
+
+    public class UsersController : Controller
     {
         public readonly IUserService _userService;
         public readonly ILoanService _loanService;
 
-        public UserController(IUserService userService, ILoanService loanService)
+        public UsersController(IUserService userService, ILoanService loanService)
         {
             _userService = userService;
             _loanService = loanService;
@@ -25,25 +27,36 @@ namespace UniLibrary.Controllers
             return View(users);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Create()
         {
             await Task.CompletedTask;
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(User user)
+        [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
+        public async Task<ActionResult> Create(RegisterViewModel registerViewModel, string status)
         {
             var userInDb = await _userService.GetAllAsync();
             foreach (var item in userInDb)
             {
-                if (user.StudentID.ToLower().Trim() != item.StudentID.ToLower().Trim() && user.Name.ToLower().Trim() != item.Name.ToLower().Trim())
+                if (registerViewModel.StudentID.ToLower().Trim() != item.StudentID.ToLower().Trim() && registerViewModel.Name.ToLower().Trim() != item.Name.ToLower().Trim())
                 {
                     try
                     {
+                        User user = new()
+                        {
+                            StudentID = registerViewModel.StudentID,
+                            Name = registerViewModel.Name,
+                            Password = BCrypt.Net.BCrypt.HashPassword(registerViewModel.Password)
+                        };
                         await _userService.AddAsync(user);
                         TempData["Success"] = "Member Created Successfully";
+                        if (status.Equals("Login"))
+                        {
+                            await LoginUser(registerViewModel.StudentID, registerViewModel.Password, "");
+                            return RedirectToAction("Index", "Home");
+                        }
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbException)
@@ -59,6 +72,68 @@ namespace UniLibrary.Controllers
                 }
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Route("/login")]
+        public async Task<IActionResult> Login()
+        {
+            await Task.CompletedTask;
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/login")]
+        public async Task<IActionResult> LoginUser(string studentID, string password, string returnURL)
+        {
+            var loginValid = ValidateLogin(studentID, password);
+            if (!loginValid.Result)
+            {
+                TempData["LoginFailed"] = $"The username or password is incorrect";
+                return Redirect("/login");
+            }
+            else
+            {
+                await SignInUser(studentID);
+                if (string.IsNullOrWhiteSpace(returnURL) || !returnURL.StartsWith("/"))
+                {
+                    TempData["Success"] = $"Login Success";
+                    returnURL = "/";
+                }
+                return this.Redirect(returnURL);
+            }
+        }
+
+        private async Task<bool> ValidateLogin(string studentID, string password)
+        {
+            var userInDb = await _userService.GetAllAsync();
+            foreach (var item in userInDb)
+            {
+                if (studentID.ToLower().Trim() == item.StudentID.ToLower().Trim())
+                {
+                    bool verified = BCrypt.Net.BCrypt.Verify(password, item.Password);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private async Task SignInUser(string studentID)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,studentID),
+                new Claim("MyCustomClaim","my claim value")
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Details(int id)

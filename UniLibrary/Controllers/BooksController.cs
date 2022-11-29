@@ -36,7 +36,7 @@ namespace UniLibrary.Controllers
 
             return View(books);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             IEnumerable<Author> authors = await _authorService.GetAllAuthorsAsync(filter: null, orderBy: null, includeProperties: a => a.Books);
@@ -55,8 +55,7 @@ namespace UniLibrary.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookDetailsViewModel model)
         {
             try
@@ -136,8 +135,7 @@ namespace UniLibrary.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, BookDetailsViewModel model)
         {
             try
@@ -165,7 +163,7 @@ namespace UniLibrary.Controllers
                 return View();
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == 0)
@@ -190,8 +188,7 @@ namespace UniLibrary.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAll(BookDetailsViewModel model)
         {
             return View(model);

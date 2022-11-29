@@ -646,6 +646,10 @@ namespace UniLibrary.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("StudentID")
                         .IsRequired()
                         .HasMaxLength(8)
@@ -660,30 +664,35 @@ namespace UniLibrary.Migrations
                         {
                             ID = 1,
                             Name = "Daniel Graham",
+                            Password = "Password1",
                             StudentID = "19855666"
                         },
                         new
                         {
                             ID = 2,
                             Name = "Eric Howell",
+                            Password = "Password2",
                             StudentID = "19555661"
                         },
                         new
                         {
                             ID = 3,
                             Name = "Patricia Lebsack",
+                            Password = "Password3",
                             StudentID = "19555662"
                         },
                         new
                         {
                             ID = 4,
                             Name = "Kalle Runolfsdottir",
+                            Password = "Password4",
                             StudentID = "19555663"
                         },
                         new
                         {
                             ID = 5,
                             Name = "Linus Reichert",
+                            Password = "Password5",
                             StudentID = "19555664"
                         });
                 });

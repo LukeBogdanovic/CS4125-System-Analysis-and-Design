@@ -9,7 +9,7 @@ using UniLibrary.Models;
 namespace UniLibrary.Controllers
 {
 #pragma warning disable
-
+    [Authorize(Roles = "Admin")]
     public class LoansController : Controller
     {
         private readonly ILoanService _loanService;
@@ -55,7 +55,7 @@ namespace UniLibrary.Controllers
             model.BookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: null, orderBy: null, b => b.Details, b => b.BookCopyLoans);
             return View(model);
         }
-
+        [Authorize(Roles = "Admin,PostGraduate,UnderGraduate")]
         public async Task<IActionResult> Create()
         {
             IEnumerable<BookCopy> bookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: x => x.IsAvailable == true, orderBy: x => x.OrderBy(x => x.Details.Title), b => b.Details, b => b.BookCopyLoans);
@@ -110,7 +110,7 @@ namespace UniLibrary.Controllers
         }
 
         #region API CALLS
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin,PostGraduate,UnderGraduate")]
         public async Task<IActionResult> Create(LoanViewModel model, int id, int[] ids)
         {
             try
