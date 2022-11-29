@@ -204,11 +204,11 @@ namespace UniLibrary.Data
                 new BookCopyLoan { BookCopyID = 7, LoanID = 2 }
             );
             modelBuilder.Entity<User>().HasData(
-                new User { ID = 1, StudentID = "19855666", Name = "Daniel Graham" },
-                new User { ID = 2, StudentID = "19555661", Name = "Eric Howell" },
-                new User { ID = 3, StudentID = "19555662", Name = "Patricia Lebsack" },
-                new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir" },
-                new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert" }
+                new User { ID = 1, StudentID = "19855666", Name = "Daniel Graham", Password = "$2a$11$78t2sJGKxrsB9PP2cJWUuO1GvhRJoV2nFmMj95HzIuO4gk1envFu6" },
+                new User { ID = 2, StudentID = "19555661", Name = "Eric Howell", Password = "$2a$11$Igdtf.xsMYZHayTNyBjxBei3OE7vKXPsuHcxbnfcHWyMEwpa8GkCa" },
+                new User { ID = 3, StudentID = "19555662", Name = "Patricia Lebsack", Password = "$2a$11$5VoUc47EDdqHtTiVha2r6eASOJvEJAanyKt.iXAicbBGOUOsXikOO" },
+                new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir", Password = "$2a$11$N8oNxha16C13c5GXXLpdM.iphqpjJfN1NXVquhIkZyHdhrip9VExa" },
+                new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert", Password = "$2a$11$nVN067GCsOgSUO//7kY64eNk/PAvsGcqLS1YUrNmYdiGuR8hi1N5C" }
             );
             modelBuilder.Entity<MeetingRoom>().HasData(
                 new MeetingRoom

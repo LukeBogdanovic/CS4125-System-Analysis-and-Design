@@ -23,6 +23,7 @@ namespace UniLibrary.Controllers
             return View();
         }
 
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Create()
         {
             await Task.CompletedTask;
@@ -46,7 +47,7 @@ namespace UniLibrary.Controllers
             return View(room);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "Admin")]
         public async Task<IActionResult> EditRoom(int id, string name, int capacity, int floor)
         {
             Room room = await _roomService.GetByIDAsync(id);
