@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniLibrary.Data;
 
@@ -10,9 +11,11 @@ using UniLibrary.Data;
 namespace UniLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221123164418_UpdateLoanClass")]
+    partial class UpdateLoanClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -466,31 +469,6 @@ namespace UniLibrary.Migrations
                             ISBN = "9783030301255",
                             Title = " Agile Processes in Software Engineering and Extreme Programming"
                         });
-                });
-
-            modelBuilder.Entity("UniLibrary.Models.Computer", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Availability")
-                        .HasMaxLength(30)
-                        .HasColumnType("tinyint(30)");
-
-                    b.Property<string>("OS")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("PCNum")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Computers");
                 });
 
             modelBuilder.Entity("UniLibrary.Models.Loan", b =>
