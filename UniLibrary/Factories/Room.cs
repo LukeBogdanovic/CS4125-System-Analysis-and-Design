@@ -1,6 +1,7 @@
 using UniLibrary.Interfaces;
 using UniLibrary.Models.Enums;
 using UniLibrary.Models.RoomFunctionalities;
+using UniLibrary.Models;
 
 namespace UniLibrary.Factories
 {
@@ -11,6 +12,8 @@ namespace UniLibrary.Factories
         public string? Name { get; set; }
         public int Capacity { get; set; } = 4;
         public int Floor { get; set; }
+        public List<RoomReservation>? RoomReservations { get; set; }
+        public bool IsAvailable { get; set; }
 
         public List<Functionality> RoomFunctionalities;
 
