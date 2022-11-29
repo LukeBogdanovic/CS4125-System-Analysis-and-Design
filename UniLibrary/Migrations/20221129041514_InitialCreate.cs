@@ -17,6 +17,10 @@ namespace UniLibrary.Migrations
             migrationBuilder.AlterDatabase()
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateSequence<int>(
+                name: "RoomIds",
+                startValue: 10L);
+
             migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
@@ -29,6 +33,90 @@ namespace UniLibrary.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Authors", x => x.ID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Computers",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PCNum = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    OS = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Availability = table.Column<bool>(type: "tinyint(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Computers", x => x.ID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ConferenceRoom",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR RoomIds"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    Floor = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConferenceRoom", x => x.ID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Functionality",
+                columns: table => new
+                {
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "MeetingRoom",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR RoomIds"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    Floor = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MeetingRoom", x => x.ID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "StudyRoom",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR RoomIds"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    Floor = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudyRoom", x => x.ID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -89,7 +177,8 @@ namespace UniLibrary.Migrations
                     ReturnDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Fee = table.Column<double>(type: "double", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false)
+                    MemberID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -167,6 +256,58 @@ namespace UniLibrary.Migrations
                     { 11, "William Shakespeare" },
                     { 12, "Villiam Skakspjut" },
                     { 13, "Robert C. Martin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Computers",
+                columns: new[] { "ID", "Availability", "OS", "PCNum" },
+                values: new object[,]
+                {
+                    { 1, true, "Windows 11", "001" },
+                    { 2, true, "macOS 13", "002" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ConferenceRoom",
+                columns: new[] { "ID", "Capacity", "Description", "Floor", "Name" },
+                values: new object[,]
+                {
+                    { 7, 12, null, 0, "301" },
+                    { 8, 12, null, 0, "302" },
+                    { 9, 12, null, 0, "303" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Loans",
+                columns: new[] { "LoanID", "DueDate", "Fee", "MemberID", "ReturnDate", "StartDate", "UserID" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 3, new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 2, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 24.0, 1, new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 3, new DateTime(2022, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 2, new DateTime(2022, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 4, new DateTime(2022, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 5, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 6, new DateTime(2022, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MeetingRoom",
+                columns: new[] { "ID", "Capacity", "Description", "Floor", "Name" },
+                values: new object[,]
+                {
+                    { 1, 12, null, 0, "101" },
+                    { 2, 12, null, 0, "102" },
+                    { 3, 12, null, 0, "103" },
+                    { 4, 12, null, 0, "104" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudyRoom",
+                columns: new[] { "ID", "Capacity", "Description", "Floor", "Name" },
+                values: new object[,]
+                {
+                    { 5, 12, null, 0, "201" },
+                    { 6, 12, null, 0, "202" }
                 });
 
             migrationBuilder.InsertData(
@@ -290,6 +431,21 @@ namespace UniLibrary.Migrations
                 name: "BookCopyLoans");
 
             migrationBuilder.DropTable(
+                name: "Computers");
+
+            migrationBuilder.DropTable(
+                name: "ConferenceRoom");
+
+            migrationBuilder.DropTable(
+                name: "Functionality");
+
+            migrationBuilder.DropTable(
+                name: "MeetingRoom");
+
+            migrationBuilder.DropTable(
+                name: "StudyRoom");
+
+            migrationBuilder.DropTable(
                 name: "BookCopies");
 
             migrationBuilder.DropTable(
@@ -303,6 +459,9 @@ namespace UniLibrary.Migrations
 
             migrationBuilder.DropTable(
                 name: "Authors");
+
+            migrationBuilder.DropSequence(
+                name: "RoomIds");
         }
     }
 }
