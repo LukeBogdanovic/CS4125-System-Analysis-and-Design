@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let url = window.location.search;
+  var url = window.location.search;
   if (url.includes("isAvailable")) {
     loadData("isAvailable");
   } else {
@@ -8,7 +8,7 @@ $(document).ready(function () {
 });
 
 function loadData(status) {
-  let table = $("#books").DataTable({
+  var table = $("#books").DataTable({
     ajax: {
       url: "/books/getAll?status=" + status,
     },
@@ -40,7 +40,7 @@ function loadData(status) {
   });
 
   $("#books").on("click", ".js-add", function () {
-    let button = $(this);
+    var button = $(this);
     $.ajax({
       url: "/books/addBookCopy/" + button.attr("data-book-id"),
       type: "POST",

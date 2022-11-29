@@ -33,16 +33,11 @@ namespace UniLibrary.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-<<<<<<< HEAD:UniLibrary/Migrations/20221128175125_InitialCreate.cs
                 name: "Computers",
-=======
-                name: "Users",
->>>>>>> main:UniLibrary/Migrations/20221122234353_InitialCreate.cs
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-<<<<<<< HEAD:UniLibrary/Migrations/20221128175125_InitialCreate.cs
                     PCNum = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OS = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
@@ -72,19 +67,6 @@ namespace UniLibrary.Migrations
                 },
                 constraints: table =>
                 {
-=======
-                    StudentID = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EmailAddress = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
->>>>>>> main:UniLibrary/Migrations/20221122234353_InitialCreate.cs
                     table.PrimaryKey("PK_Users", x => x.ID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -125,12 +107,8 @@ namespace UniLibrary.Migrations
                     ReturnDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Fee = table.Column<double>(type: "double", nullable: false),
-<<<<<<< HEAD:UniLibrary/Migrations/20221128175125_InitialCreate.cs
                     MemberID = table.Column<int>(type: "int", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: true)
-=======
-                    UserID = table.Column<int>(type: "int", nullable: false)
->>>>>>> main:UniLibrary/Migrations/20221122234353_InitialCreate.cs
                 },
                 constraints: table =>
                 {
@@ -139,12 +117,7 @@ namespace UniLibrary.Migrations
                         name: "FK_Loans_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-<<<<<<< HEAD:UniLibrary/Migrations/20221128175125_InitialCreate.cs
                         principalColumn: "ID");
-=======
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
->>>>>>> main:UniLibrary/Migrations/20221122234353_InitialCreate.cs
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -215,7 +188,6 @@ namespace UniLibrary.Migrations
                 });
 
             migrationBuilder.InsertData(
-<<<<<<< HEAD:UniLibrary/Migrations/20221128175125_InitialCreate.cs
                 table: "Loans",
                 columns: new[] { "LoanID", "DueDate", "Fee", "MemberID", "ReturnDate", "StartDate", "UserID" },
                 values: new object[,]
@@ -233,12 +205,6 @@ namespace UniLibrary.Migrations
                 columns: new[] { "ID", "EmailAddress", "Name", "Password", "StudentID" },
                 values: new object[,]
                 {
-=======
-                table: "Users",
-                columns: new[] { "ID", "EmailAddress", "Name", "Password", "StudentID" },
-                values: new object[,]
-                {
->>>>>>> main:UniLibrary/Migrations/20221122234353_InitialCreate.cs
                     { 1, null, "Daniel Graham", null, "19855666" },
                     { 2, null, "Eric Howell", null, "19555661" },
                     { 3, null, "Patricia Lebsack", null, "19555662" },
@@ -264,19 +230,6 @@ namespace UniLibrary.Migrations
                     { 11, 11, "Optimize the effectiveness of your business, to produce fit-for-purpose products and services that delight your customers, making them loyal to your brand and increasing your share, revenues and margins.", "9780984521401", "Kanban " },
                     { 12, 12, "This  book constitutes the research workshops, doctoral symposium and panel summaries presented at the 20th International Conference on Agile Software Development", "9783030301255", " Agile Processes in Software Engineering and Extreme Programming" },
                     { 13, 13, "The Age of Agile helps readers master the three laws of Agile Management (team, customer, network)", "9780814439098", "THE AGE OF AGILE " }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Loans",
-                columns: new[] { "LoanID", "DueDate", "Fee", "ReturnDate", "StartDate", "UserID" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 3 },
-                    { 2, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 24.0, new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 3, new DateTime(2022, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, new DateTime(2022, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
-                    { 4, new DateTime(2022, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
-                    { 5, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 4 },
-                    { 6, new DateTime(2022, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 5 }
                 });
 
             migrationBuilder.InsertData(

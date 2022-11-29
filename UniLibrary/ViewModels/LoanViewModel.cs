@@ -2,7 +2,7 @@ using UniLibrary.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace UniLibrary.ViewModels
+namespace Library.MVC.ViewModels
 {
     public class LoanViewModel
     {
@@ -13,11 +13,15 @@ namespace UniLibrary.ViewModels
         [ValidateNever]
         public IReadOnlyList<Loan>? Loans { get; set; }
 
+
         [ValidateNever]
         public IReadOnlyList<BookCopy>? BookCopies { get; set; }
 
         [ValidateNever]
         public IReadOnlyList<BookCopyLoan>? BookCopyLoans { get; set; }
+
+
+
 
         [ValidateNever]
         public BookCopy? BookCopy { get; set; }
@@ -29,6 +33,6 @@ namespace UniLibrary.ViewModels
         public User? User { get; set; }
 
         [ValidateNever]
-        public IEnumerable<SelectListItem>? Users { get; set; }
+        public IEnumerable<SelectListItem>? Members { get; set; }
     }
 }
