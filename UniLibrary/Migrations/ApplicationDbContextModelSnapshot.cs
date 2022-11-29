@@ -475,6 +475,7 @@ namespace UniLibrary.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("Availability")
+                        .HasMaxLength(30)
                         .HasColumnType("tinyint(30)");
 
                     b.Property<string>("OS")
@@ -490,22 +491,6 @@ namespace UniLibrary.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Computers");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Availability = true,
-                            OS = "Windows 11",
-                            PCNum = "001"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Availability = true,
-                            OS = "macOS 13",
-                            PCNum = "002"
-                        });
                 });
 
             modelBuilder.Entity("UniLibrary.Models.Loan", b =>
