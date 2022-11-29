@@ -128,11 +128,7 @@ namespace UniLibrary.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     StudentID = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EmailAddress = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -177,8 +173,7 @@ namespace UniLibrary.Migrations
                     ReturnDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Fee = table.Column<double>(type: "double", nullable: false),
-                    MemberID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: true)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -278,19 +273,6 @@ namespace UniLibrary.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Loans",
-                columns: new[] { "LoanID", "DueDate", "Fee", "MemberID", "ReturnDate", "StartDate", "UserID" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 3, new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
-                    { 2, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 24.0, 1, new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
-                    { 3, new DateTime(2022, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 2, new DateTime(2022, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
-                    { 4, new DateTime(2022, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
-                    { 5, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
-                    { 6, new DateTime(2022, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.0, 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), null }
-                });
-
-            migrationBuilder.InsertData(
                 table: "MeetingRoom",
                 columns: new[] { "ID", "Capacity", "Description", "Floor", "Name" },
                 values: new object[,]
@@ -312,14 +294,14 @@ namespace UniLibrary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "ID", "EmailAddress", "Name", "Password", "StudentID" },
+                columns: new[] { "ID", "Name", "StudentID" },
                 values: new object[,]
                 {
-                    { 1, null, "Daniel Graham", null, "19855666" },
-                    { 2, null, "Eric Howell", null, "19555661" },
-                    { 3, null, "Patricia Lebsack", null, "19555662" },
-                    { 4, null, "Kalle Runolfsdottir", null, "19555663" },
-                    { 5, null, "Linus Reichert", null, "19555664" }
+                    { 1, "Daniel Graham", "19855666" },
+                    { 2, "Eric Howell", "19555661" },
+                    { 3, "Patricia Lebsack", "19555662" },
+                    { 4, "Kalle Runolfsdottir", "19555663" },
+                    { 5, "Linus Reichert", "19555664" }
                 });
 
             migrationBuilder.InsertData(
