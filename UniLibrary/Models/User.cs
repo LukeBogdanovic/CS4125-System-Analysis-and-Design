@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using UniLibrary.Models.Enums;
 
 namespace UniLibrary.Models
 {
@@ -11,6 +12,7 @@ namespace UniLibrary.Models
         public string Name { get; set; } = string.Empty;
         [DataType(DataType.Password), Required]
         public string? Password { get; set; }
+        public UserType Type { get; set; } = UserType.UnderGraduate;
         [ValidateNever]
         public IList<Loan>? Loans { get; set; }
     }

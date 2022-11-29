@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniLibrary.Data;
 
@@ -10,9 +11,11 @@ using UniLibrary.Data;
 namespace UniLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221129174314_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -655,9 +658,6 @@ namespace UniLibrary.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.ToTable("Users");
@@ -667,41 +667,36 @@ namespace UniLibrary.Migrations
                         {
                             ID = 1,
                             Name = "Daniel Graham",
-                            Password = "$2a$11$78t2sJGKxrsB9PP2cJWUuO1GvhRJoV2nFmMj95HzIuO4gk1envFu6",
-                            StudentID = "19855666",
-                            Type = 2
+                            Password = "Password1",
+                            StudentID = "19855666"
                         },
                         new
                         {
                             ID = 2,
                             Name = "Eric Howell",
-                            Password = "$2a$11$Igdtf.xsMYZHayTNyBjxBei3OE7vKXPsuHcxbnfcHWyMEwpa8GkCa",
-                            StudentID = "19555661",
-                            Type = 2
+                            Password = "Password2",
+                            StudentID = "19555661"
                         },
                         new
                         {
                             ID = 3,
                             Name = "Patricia Lebsack",
-                            Password = "$2a$11$5VoUc47EDdqHtTiVha2r6eASOJvEJAanyKt.iXAicbBGOUOsXikOO",
-                            StudentID = "19555662",
-                            Type = 2
+                            Password = "Password3",
+                            StudentID = "19555662"
                         },
                         new
                         {
                             ID = 4,
                             Name = "Kalle Runolfsdottir",
-                            Password = "$2a$11$N8oNxha16C13c5GXXLpdM.iphqpjJfN1NXVquhIkZyHdhrip9VExa",
-                            StudentID = "19555663",
-                            Type = 2
+                            Password = "Password4",
+                            StudentID = "19555663"
                         },
                         new
                         {
                             ID = 5,
                             Name = "Linus Reichert",
-                            Password = "$2a$11$nVN067GCsOgSUO//7kY64eNk/PAvsGcqLS1YUrNmYdiGuR8hi1N5C",
-                            StudentID = "19555664",
-                            Type = 2
+                            Password = "Password5",
+                            StudentID = "19555664"
                         });
                 });
 

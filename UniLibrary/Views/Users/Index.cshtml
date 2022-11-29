@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-6 text-right">
-            <a class="btn btn-primary" asp-controller="User" asp-action="Create">
+            <a class="btn btn-primary" asp-controller="Users" asp-action="Create" asp-route-status="Create">
                 <i class="bi bi-plus-circle"></i> &nbsp; New
             </a>
         </div>
@@ -37,7 +37,7 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(user.Name, "Details", "User", new { id = user.ID }, null)
+                        @Html.ActionLink(user.Name, "Details", "Users", new { id = user.ID }, null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => user.StudentID)

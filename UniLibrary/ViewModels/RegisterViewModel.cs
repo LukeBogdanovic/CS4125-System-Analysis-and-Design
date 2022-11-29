@@ -10,6 +10,8 @@ namespace UniLibrary.ViewModels
         public string? Password { get; set; }
         [DataType(DataType.Password), Compare("Password"), Required]
         public string? ConfirmPassword { get; set; }
+        [Required]
+        public string? UserType { get; set; }
     }
 
     public class LoginViewModel

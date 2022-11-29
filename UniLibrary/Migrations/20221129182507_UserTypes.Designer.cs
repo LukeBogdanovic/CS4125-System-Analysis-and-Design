@@ -11,8 +11,8 @@ using UniLibrary.Data;
 namespace UniLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221123164418_UpdateLoanClass")]
-    partial class UpdateLoanClass
+    [Migration("20221129182507_UserTypes")]
+    partial class UserTypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,48 @@ namespace UniLibrary.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.HasSequence<int>("RoomIds")
+                .StartsAt(10L);
+
+            modelBuilder.Entity("UniLibrary.Factories.Functionality", b =>
+                {
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.ToTable("Functionality");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Functionality");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("UniLibrary.Factories.Room", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR RoomIds");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ID");
+
+                    b.ToTable((string)null);
+
+                    b.UseTpcMappingStrategy();
+                });
 
             modelBuilder.Entity("UniLibrary.Models.Author", b =>
                 {
@@ -471,6 +513,47 @@ namespace UniLibrary.Migrations
                         });
                 });
 
+            modelBuilder.Entity("UniLibrary.Models.Computer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Availability")
+                        .HasMaxLength(30)
+                        .HasColumnType("tinyint(30)");
+
+                    b.Property<string>("OS")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("PCNum")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Computers");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Availability = true,
+                            OS = "Windows 11",
+                            PCNum = "001"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Availability = true,
+                            OS = "macOS 13",
+                            PCNum = "002"
+                        });
+                });
+
             modelBuilder.Entity("UniLibrary.Models.Loan", b =>
                 {
                     b.Property<int>("LoanID")
@@ -566,10 +649,17 @@ namespace UniLibrary.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("StudentID")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -580,31 +670,187 @@ namespace UniLibrary.Migrations
                         {
                             ID = 1,
                             Name = "Daniel Graham",
-                            StudentID = "19855666"
+                            Password = "$2a$11$78t2sJGKxrsB9PP2cJWUuO1GvhRJoV2nFmMj95HzIuO4gk1envFu6",
+                            StudentID = "19855666",
+                            Type = 0
                         },
                         new
                         {
                             ID = 2,
                             Name = "Eric Howell",
-                            StudentID = "19555661"
+                            Password = "$2a$11$Igdtf.xsMYZHayTNyBjxBei3OE7vKXPsuHcxbnfcHWyMEwpa8GkCa",
+                            StudentID = "19555661",
+                            Type = 0
                         },
                         new
                         {
                             ID = 3,
                             Name = "Patricia Lebsack",
-                            StudentID = "19555662"
+                            Password = "$2a$11$5VoUc47EDdqHtTiVha2r6eASOJvEJAanyKt.iXAicbBGOUOsXikOO",
+                            StudentID = "19555662",
+                            Type = 0
                         },
                         new
                         {
                             ID = 4,
                             Name = "Kalle Runolfsdottir",
-                            StudentID = "19555663"
+                            Password = "$2a$11$N8oNxha16C13c5GXXLpdM.iphqpjJfN1NXVquhIkZyHdhrip9VExa",
+                            StudentID = "19555663",
+                            Type = 0
                         },
                         new
                         {
                             ID = 5,
                             Name = "Linus Reichert",
-                            StudentID = "19555664"
+                            Password = "$2a$11$nVN067GCsOgSUO//7kY64eNk/PAvsGcqLS1YUrNmYdiGuR8hi1N5C",
+                            StudentID = "19555664",
+                            Type = 0
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ComputerClassFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ComputerClassFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ComputerFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ComputerFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ConferenceFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ConferenceFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.DisplayFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("DisplayFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.NoAccessibilityFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("NoAccessibilityFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.PowerFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("PowerFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.WhiteBoardFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("WhiteBoardFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.RoomFunctionalities.ZoomFunctionality", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Functionality");
+
+                    b.HasDiscriminator().HasValue("ZoomFunctionality");
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.ConferenceRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("ConferenceRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 7,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "301"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "302"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "303"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.MeetingRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("MeetingRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "101"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "102"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "103"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "104"
+                        });
+                });
+
+            modelBuilder.Entity("UniLibrary.Models.StudyRoom", b =>
+                {
+                    b.HasBaseType("UniLibrary.Factories.Room");
+
+                    b.ToTable("StudyRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 5,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "201"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Capacity = 12,
+                            Floor = 0,
+                            Name = "202"
                         });
                 });
 

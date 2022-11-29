@@ -11,8 +11,8 @@ using UniLibrary.Data;
 namespace UniLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221129041514_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221129183316_UserDefaultTypes")]
+    partial class UserDefaultTypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -566,16 +566,13 @@ namespace UniLibrary.Migrations
                     b.Property<double>("Fee")
                         .HasColumnType("double");
 
-                    b.Property<int>("MemberID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("LoanID");
@@ -590,54 +587,54 @@ namespace UniLibrary.Migrations
                             LoanID = 1,
                             DueDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
-                            MemberID = 3,
                             ReturnDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2022, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 3
                         },
                         new
                         {
                             LoanID = 2,
                             DueDate = new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 24.0,
-                            MemberID = 1,
                             ReturnDate = new DateTime(2022, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2022, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 1
                         },
                         new
                         {
                             LoanID = 3,
                             DueDate = new DateTime(2022, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
-                            MemberID = 2,
                             ReturnDate = new DateTime(2022, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2022, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 2
                         },
                         new
                         {
                             LoanID = 4,
                             DueDate = new DateTime(2022, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
-                            MemberID = 2,
                             ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2022, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 2
                         },
                         new
                         {
                             LoanID = 5,
                             DueDate = new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
-                            MemberID = 4,
                             ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2022, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 4
                         },
                         new
                         {
                             LoanID = 6,
                             DueDate = new DateTime(2022, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Fee = 0.0,
-                            MemberID = 5,
                             ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2022, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 5
                         });
                 });
 
@@ -647,20 +644,22 @@ namespace UniLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("EmailAddress")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("StudentID")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -671,31 +670,41 @@ namespace UniLibrary.Migrations
                         {
                             ID = 1,
                             Name = "Daniel Graham",
-                            StudentID = "19855666"
+                            Password = "$2a$11$78t2sJGKxrsB9PP2cJWUuO1GvhRJoV2nFmMj95HzIuO4gk1envFu6",
+                            StudentID = "19855666",
+                            Type = 2
                         },
                         new
                         {
                             ID = 2,
                             Name = "Eric Howell",
-                            StudentID = "19555661"
+                            Password = "$2a$11$Igdtf.xsMYZHayTNyBjxBei3OE7vKXPsuHcxbnfcHWyMEwpa8GkCa",
+                            StudentID = "19555661",
+                            Type = 2
                         },
                         new
                         {
                             ID = 3,
                             Name = "Patricia Lebsack",
-                            StudentID = "19555662"
+                            Password = "$2a$11$5VoUc47EDdqHtTiVha2r6eASOJvEJAanyKt.iXAicbBGOUOsXikOO",
+                            StudentID = "19555662",
+                            Type = 2
                         },
                         new
                         {
                             ID = 4,
                             Name = "Kalle Runolfsdottir",
-                            StudentID = "19555663"
+                            Password = "$2a$11$N8oNxha16C13c5GXXLpdM.iphqpjJfN1NXVquhIkZyHdhrip9VExa",
+                            StudentID = "19555663",
+                            Type = 2
                         },
                         new
                         {
                             ID = 5,
                             Name = "Linus Reichert",
-                            StudentID = "19555664"
+                            Password = "$2a$11$nVN067GCsOgSUO//7kY64eNk/PAvsGcqLS1YUrNmYdiGuR8hi1N5C",
+                            StudentID = "19555664",
+                            Type = 2
                         });
                 });
 
@@ -888,9 +897,13 @@ namespace UniLibrary.Migrations
 
             modelBuilder.Entity("UniLibrary.Models.Loan", b =>
                 {
-                    b.HasOne("UniLibrary.Models.User", null)
+                    b.HasOne("UniLibrary.Models.User", "User")
                         .WithMany("Loans")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("UniLibrary.Models.Author", b =>

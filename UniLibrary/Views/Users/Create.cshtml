@@ -1,4 +1,5 @@
 @model UniLibrary.ViewModels.RegisterViewModel
+@using UniLibrary.Models.Enums;
 
 @{
     var status = Context.Request.Query["status"];
@@ -56,17 +57,31 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger>"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="UserType" class="control-label"></label>
+                    <select asp-for="UserType" class="form-control">
+                        <option class="" disabled selected>--Select UserType--</option>
+                        @{
+                            var types = Enum.GetValues<UserType>();
+                        }
+                        @if (status == "Create")
+                        {
+                            <option value="@types[0].ToString()">@types[0].ToString()</option>
+                        }
+                        <option value="@types[1].ToString()">@types[1].ToString()</option>
+                        <option value="@types[2].ToString()">@types[2].ToString()</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     @switch (status)
                     {
                         case "Create":
-                            <input type="submit" value="Save" class="btn btn-primary" asp-route-status="Create" />
+                            <input type="submit" value="Create" class="btn btn-primary" asp-route-status="Create" />
                             <span>|</span>
                             <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
                             break;
                         default:
-                            <input type="submit" value="Save" class="btn btn-primary" asp-route-status="Login" />
+                            <input type="submit" value="Register" class="btn btn-primary" asp-route-status="Login" />
                             break;
-
                     }
                 </div>
             </form>

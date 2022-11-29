@@ -12,8 +12,6 @@ namespace UniLibrary.Factories
         public int Capacity { get; set; } = 4;
         public int Floor { get; set; }
 
-        public string? Description { get; set; }
-
         public List<Functionality> RoomFunctionalities;
 
         protected Room()
@@ -22,7 +20,6 @@ namespace UniLibrary.Factories
             InitializeFunctionality();
         }
         protected abstract void InitializeFunctionality();
-        // public IEnumerable<Functionality> Functionalities => RoomFunctionalities;
 
         protected void AddFunctionality(Functionality functionality)
         {

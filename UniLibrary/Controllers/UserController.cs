@@ -4,6 +4,7 @@ using UniLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Security.Claims;
+using UniLibrary.Models.Enums;
 using BCrypt.Net;
 
 namespace UniLibrary.Controllers
@@ -21,6 +22,7 @@ namespace UniLibrary.Controllers
             _loanService = loanService;
         }
 
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userService.GetAllUsersAsync(orderBy: m => m.OrderBy(m => m.Name), includeProperties: m => m.Loans);
@@ -44,11 +46,25 @@ namespace UniLibrary.Controllers
                 {
                     try
                     {
+                        var userType = UserType.Admin;
+                        switch (registerViewModel.UserType)
+                        {
+                            case "Admin":
+                                userType = UserType.Admin;
+                                break;
+                            case "PostGraduate":
+                                userType = UserType.PostGraduate;
+                                break;
+                            case "UnderGraduate":
+                                userType = UserType.UnderGraduate;
+                                break;
+                        }
                         User user = new()
                         {
                             StudentID = registerViewModel.StudentID,
                             Name = registerViewModel.Name,
-                            Password = BCrypt.Net.BCrypt.HashPassword(registerViewModel.Password)
+                            Password = BCrypt.Net.BCrypt.HashPassword(registerViewModel.Password),
+                            Type = userType
                         };
                         await _userService.AddAsync(user);
                         TempData["Success"] = "Member Created Successfully";
@@ -112,7 +128,7 @@ namespace UniLibrary.Controllers
                 if (studentID.ToLower().Trim() == item.StudentID.ToLower().Trim())
                 {
                     bool verified = BCrypt.Net.BCrypt.Verify(password, item.Password);
-                    return true;
+                    return verified;
                 }
             }
             return false;
@@ -120,13 +136,25 @@ namespace UniLibrary.Controllers
 
         private async Task SignInUser(string studentID)
         {
-            var claims = new List<Claim>
+            var user = await _userService.GetAllAsync();
+            foreach (var item in user)
             {
-                new Claim(ClaimTypes.Name,studentID),
-                new Claim("MyCustomClaim","my claim value")
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                if (item.StudentID == studentID)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,studentID)
+                    };
+                    if (item.Type == UserType.Admin)
+                        claims.Add(new Claim("Admin", "true"));
+                    else if (item.Type == UserType.PostGraduate)
+                        claims.Add(new Claim("PostGraduate", "true"));
+                    else
+                        claims.Add(new Claim("UnderGraduate", "true"));
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                }
+            }
         }
 
         [Authorize]
@@ -136,6 +164,7 @@ namespace UniLibrary.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Details(int id)
         {
             if (id == 0)
@@ -157,7 +186,7 @@ namespace UniLibrary.Controllers
             try
             {
                 await _userService.UpdateAsync(user);
-                TempData["Success"] = "Author updated Successfully";
+                TempData["Success"] = "User updated Successfully";
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
@@ -179,14 +208,14 @@ namespace UniLibrary.Controllers
             return await _userService.GetByIDAsync(id) != null;
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize(Policy = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var userInDb = await _userService.GetByIDAsync(id);
             var loanInDb = _loanService.GetLoanOrDefault(filter: b => b.UserID == userInDb.ID);
             if (loanInDb != null)
             {
-                return Json(new { error = true, message = "You cannot delete this member as long as it has loans referring to it!" });
+                return Json(new { error = true, message = "You cannot delete this User as long as it has loans referring to it!" });
             }
             await _userService.DeleteAsync(id);
             return Json(new { success = true, message = "User Deleted Successfully." });
