@@ -3,14 +3,11 @@ using UniLibrary.Models.RoomFunctionalities;
 
 namespace UniLibrary.Models
 {
-public class ComputerClassRoom : Room
+    public class ComputerClassRoom : Room
     {
 
-        public ComputerClassRoom()
+        protected override void InitializeFunctionality()
         {
-            Capacity = 18;
-        }
-        protected override void InitializeFunctionality(){
             AddFunctionalities(new ComputerClassFunctionality(),
                                     new DisplayFunctionality(),
                                     new WhiteBoardFunctionality(),

@@ -34,9 +34,9 @@ namespace UniLibrary.Services
             return await query.ToListAsync();
         }
 
-        public async Task<Room> GetRoomOrDefaultAsync(Expression<Func<Room, bool>> filter, string? includeProperties = null, bool tracked = true)
+        public Room GetRoomOrDefaultAsync(Expression<Func<Room, bool>> filter, string? includeProperties = null, bool tracked = true)
         {
-             if (tracked)
+            if (tracked)
             {
                 IQueryable<Room> query = _table;
                 query = query.Where(filter);
@@ -63,6 +63,7 @@ namespace UniLibrary.Services
                 return query.FirstOrDefault();
             }
         }
+
     }
-    
+
 }

@@ -9,18 +9,18 @@ namespace UniLibrary.Models
     {
         public static Room getRoom(Rooms RoomType)
         {
-            switch(RoomType)
+            switch (RoomType)
             {
                 case Rooms.ConferenceRoom:
-                return new ConferenceRoom();
+                    return new ConferenceRoom();
                 case Rooms.ComputerRoom:
-                return new ComputerClassRoom();
+                    return new ComputerClassRoom();
                 case Rooms.MeetingRoom:
-                return new MeetingRoom();
+                    return new MeetingRoom();
                 case Rooms.StudyRoom:
-                return new StudyRoom();
+                    return new StudyRoom();
                 default:
-                throw new ApplicationException(string.Format("Room cannot be created ", RoomType));
+                    throw new ApplicationException(string.Format("Room cannot be created ", RoomType));
             }
         }
     }

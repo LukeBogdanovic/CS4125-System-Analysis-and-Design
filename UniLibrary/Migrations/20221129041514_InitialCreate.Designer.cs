@@ -11,7 +11,7 @@ using UniLibrary.Data;
 namespace UniLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221128175134_InitialCreate")]
+    [Migration("20221129041514_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

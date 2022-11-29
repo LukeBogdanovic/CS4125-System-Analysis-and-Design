@@ -16,7 +16,7 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
     options.ClientId = builder.Configuration["Auth0:ClientId"];
 });
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), MariaDbServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
 // Add services to the container.
 builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
