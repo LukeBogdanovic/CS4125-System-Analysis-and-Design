@@ -1,13 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
-using UniLibrary.Models;
-using MySqlConnector;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Pomelo.EntityFrameworkCore.MySql;
 using UniLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using UniLibrary.Interfaces;
 using UniLibrary.Services;
-using Microsoft.AspNetCore.Identity;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuth0WebAppAuthentication(options =>
@@ -28,6 +23,8 @@ builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
@@ -47,12 +44,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.MapRazorPages();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();

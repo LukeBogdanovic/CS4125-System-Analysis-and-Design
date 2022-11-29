@@ -14,7 +14,7 @@ namespace UniLibrary.Services
         {
         }
 
-        public async Task<Loan> GetLoanOrDefaultAsync(Expression<Func<Loan, bool>> filter, string includeProperties = null, bool tracked = true)
+        public Loan GetLoanOrDefault(Expression<Func<Loan, bool>> filter, string includeProperties = null, bool tracked = true)
         {
             if (tracked)
             {

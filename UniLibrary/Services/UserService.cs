@@ -36,8 +36,8 @@ namespace UniLibrary.Services
         public async Task<User> GetUserByIdAsync(int id, bool includeProperties)
         {
             User? User = new();
-            User = includeProperties ? await _table.Include(m => m.Loans).ThenInclude(l => l.BookCopyLoans).ThenInclude(b => b.BookCopy).ThenInclude(b => b.Details).FirstOrDefaultAsync(x => x.ID == id) : await GetByIDAsync(id);
-            return User;
+            User = includeProperties ? await _table.Include(m => m.Loans)!.ThenInclude(l => l.BookCopyLoans)!.ThenInclude(b => b.BookCopy).ThenInclude(b => b!.Details).FirstOrDefaultAsync(x => x.ID == id) : await GetByIDAsync(id);
+            return User!;
         }
     }
 }
