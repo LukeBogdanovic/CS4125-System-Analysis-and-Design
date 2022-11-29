@@ -12,10 +12,12 @@ namespace UniLibrary.Models
 {
     public abstract class Computer
     {
+        private List<IAvailabilityObserver> obs = new List< IAvailabilityObserver>();
+
         public int ID { get; set; }
         [StringLength(60, MinimumLength = 3)]
         [Required]
-        public string? PCNum { get; set; }
+        public string? ComNum { get; set; }
         [Required]
         [StringLength(30)]
         public string? OS { get; set; }
@@ -24,52 +26,94 @@ namespace UniLibrary.Models
         public bool Availability { get; set; }   
 
         //constructer 
-        public Computer(int ID, string? PCNum, string? OS)
+        public Computer(int ID, string? ComNum, string? OS)
         {
             this.ID = ID;
-            this.PCNum = PCNum;
+            this.ComNum = ComNum;
             this.OS = OS;
             this.Availability = true;
         }
-    }
 
+        public void Attach(IAvailabilityObserver x)
+        {
+            obs.Add(x);
+        }
+        public void Detach(IAvailabilityObserver x)
+        {
+            obs.Remove(x);
+        }
+        public void Notify()
+        {
+            foreach (IAvailabilityObserver x in obs)
+            {
+                //x.Update(this);
+            }
+        }
+    }
     public class PC : Computer
     {
         //constructer
-        public PC (int ID, string? PCNum, string? OS)
-        : base(ID, PCNum, OS)
+        public PC (int ID, string? ComNum, string? OS)
+        : base(ID, ComNum, OS)
         {
         }
     }
 
-    // public abstract class ComputerObserver
-    // {
-    //     public abstract void Update();
-    // }
+    public class Laptop : Computer
+    {
+        //constructer
+        public Laptop (int ID, string? ComNum, string? OS)
+        : base(ID, ComNum, OS)
+        {
+        }
+    }
 
-    // public class ConcreteObserver : ComputerObserver
-    // {
-    //     private string name;
-    //     private string observerState;
-    //     private PC subject;
+    public abstract class IAvailabilityObserver
+    {
+        public abstract void Update();
+    }
 
-    //     // Constructor
+    public class PCAvailabilityObserver : IAvailabilityObserver
+    {
+        private string ComNum;
+        private PC pc;
 
-    //     public ConcreteObserver(
-    //         PC pc, string name)
-    //     {
-    //         this.subject = subject;
-    //         this.name = name;
-    //     }
 
-    //     public override void Update()
-    //     {
-    //        // observerState = subject.SubjectState;
-    //         Console.WriteLine("Observer {0}'s new state is {1}",
-    //             name, observerState);
-    //     }
-    // }
-}
+        // Constructor
+
+        public PCAvailabilityObserver(PC pc, string ComNum)
+        {
+            this.pc = pc;
+            this.ComNum = ComNum;
+        }
+
+        public override void Update()
+        {
+           
+        }
+    }
+
+    public class LaptopAvailabilityObserver : IAvailabilityObserver
+    {
+        private string ComNum;
+        private PC pc;
+
+
+        // Constructor
+
+        public LaptopAvailabilityObserver(PC pc, string ComNum)
+        {
+            this.pc = pc;
+            this.ComNum = ComNum;
+        }
+
+        public override void Update()
+        {
+           
+        }
+    }
+} 
+
 
 
 

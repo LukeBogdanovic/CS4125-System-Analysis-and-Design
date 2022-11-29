@@ -54,7 +54,7 @@ namespace UniLibrary.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,PCNum,OS,Availability")] Computer computer)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,ComNum,OS,Availability")] Computer computer)
         {
             if (id != computer.ID)
             {
