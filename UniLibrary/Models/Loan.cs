@@ -1,4 +1,5 @@
 using UniLibrary.Models.Utilities;
+using UniLibrary.Decorator;
 
 namespace UniLibrary.Models
 {
@@ -20,7 +21,6 @@ namespace UniLibrary.Models
             StartDate = DateTime.Now;
             DueDate = DateTime.Now.AddDays(FeeSettings.Days);
         }
-
         public double setFee(int copies)
         {
             return Fee = (DateTime.Now > DueDate) ? (DateTime.Now - DueDate).Days * (FeeSettings.FeePerDayPerBook) * copies : 0;
