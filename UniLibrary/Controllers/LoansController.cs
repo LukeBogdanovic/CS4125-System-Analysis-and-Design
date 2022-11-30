@@ -9,7 +9,7 @@ using UniLibrary.Models;
 namespace UniLibrary.Controllers
 {
 #pragma warning disable
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admin")]
     public class LoansController : Controller
     {
         private readonly ILoanService _loanService;
@@ -110,7 +110,7 @@ namespace UniLibrary.Controllers
         }
 
         #region API CALLS
-        [HttpPost, Authorize(Roles = "Admin,PostGraduate,UnderGraduate")]
+        [HttpPost, Authorize(Policy = "Admin,PostGraduate,UnderGraduate")]
         public async Task<IActionResult> Create(LoanViewModel model, int id, int[] ids)
         {
             try

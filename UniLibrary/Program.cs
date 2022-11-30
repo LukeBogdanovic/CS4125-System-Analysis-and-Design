@@ -23,6 +23,7 @@ builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IReserveService, ReservationService>();
+builder.Services.AddScoped<IRoomReservationService, RoomReservationService>();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAuthorization(options =>
 {
