@@ -1,0 +1,94 @@
+@using UniLibrary.Models.Utilities
+@model UniLibrary.ViewModels.LoanViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    var userID = TempData.Peek("UserID");
+    var Name = TempData.Peek("UserName");
+#pragma warning disable
+}
+
+<h1 class="text-primary mx-2">Create Loan</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group  mb-3 col-12">
+                <label asp-for="User.Name" class="control-label">User Name</label>
+                <select id="User_Id" asp-for="User.Name" class="form-control" disabled>
+                    <option class="form-control" data-user-id=@userID selected>@Name</option>
+                </select>
+            </div>
+            @for (var i = 1; i <= LoanStatus.Max; i++)
+            {
+                <div class="form-group  mb-3 col-12">
+                    <label class="control-label"> Copy № (@(i)) </label>
+                    <select id=book-copy-@(i) class="form-control">
+                        <option class="form-control" disabled selected>--Select Book Copy--</option>
+                        @if (Model.Copies.Count() != 0)
+                        {
+                            @foreach (var item in @Model.Copies)
+                            {
+                                <option id="copy-item" data-copy-id=@item.Value>@item.Text</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="BookCopy.BookCopyID" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group  mt-3  mx-3">
+                <input id="create" type="submit" value="Create" class="btn btn-primary js-create" />
+                <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    $(document).ready(function () {
+        let send = false;
+        let items = [];
+        let user = 0;
+        user = document
+            .querySelector("[data-user-id]")
+            .attributes.getNamedItem("data-user-id").value;
+        for (let i = 1; i <= 3; i++) {
+            $(`#book-copy-${i}`).each(function () {
+                $(`#book-copy-${i}`).change(function () {
+                    let selection =
+                        $(this).find(":selected")[0].attributes["data-copy-id"].value;
+                    items.push(selection);
+                    $("select").children(`option[data-copy-id=${selection}]`).hide();
+                });
+            });
+        }
+        $("#create").on("click", function (e) {
+            e.preventDefault();
+            send = true;
+            items = items.slice(0, 3);
+            if (items.length <= 3 && send) {
+                $.ajax({
+                    type: "POST",
+                    url: "/loans/Create/",
+                    dataType: "json",
+                    traditional: true,
+                    data: { ids: items, id: user },
+                    success: function (data) {
+                        if (data.success) {
+                            window.location.replace("/Loans/Index");
+                            toastr.success(data.message);
+                        } else {
+                            toastr.warning(data.message, { timeOut: 10000 });
+                        }
+                    },
+                });
+            }
+        });
+    });
+</script>
+}
