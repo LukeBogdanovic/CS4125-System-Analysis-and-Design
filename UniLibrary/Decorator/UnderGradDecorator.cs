@@ -5,7 +5,7 @@ namespace UniLibrary.Decorator
         public override void CreateFee()
         {
             base.CreateFee();
-            Fee = Fee * 2;
+            Fee = Fee * 1.25;
         }
     }
 }
