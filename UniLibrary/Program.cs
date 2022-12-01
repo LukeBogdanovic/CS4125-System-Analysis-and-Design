@@ -41,8 +41,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-This line of writing should have been commented out, however whomst ever wrote it "forgot" to comment it out and now dotnet build fails.
-Its sole purpose is to demonstrate how our github actions prevents code which doesnt build from being merged into main.
+// This line of writing should have been commented out, however whomst ever wrote it "forgot" to comment it out and now dotnet build fails.
+// Its sole purpose is to demonstrate how our github actions prevents code which doesnt build from being merged into main.
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
