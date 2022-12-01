@@ -5,6 +5,8 @@ using System.Data.Common;
 using UniLibrary.Interfaces;
 using UniLibrary.ViewModels;
 using UniLibrary.Models;
+using UniLibrary.Decorator;
+using UniLibrary.Models.Enums;
 
 namespace UniLibrary.Controllers
 {
@@ -49,7 +51,18 @@ namespace UniLibrary.Controllers
                 model.BookCopyLoans = await _bookCopyLoanService.GetAllBookCopyLoansAsync(filter: l => (l.LoanID == loan.LoanID), orderBy: null, b => b.Loan, b => b.BookCopy);
                 if (model.Loan.ReturnDate == DateTime.MinValue)
                 {
-                    model.Loan.setFee(model.BookCopyLoans.Count);
+                    switch (loan.User.Type)
+                    {
+                        case UserType.Admin:
+                            model.Loan.setFee(model.BookCopyLoans.Count, UserType.Admin);
+                            break;
+                        case UserType.PostGraduate:
+                            model.Loan.setFee(model.BookCopyLoans.Count, UserType.PostGraduate);
+                            break;
+                        default:
+                            model.Loan.setFee(model.BookCopyLoans.Count);
+                            break;
+                    }
                 }
             }
             model.BookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: null, orderBy: null, b => b.Details, b => b.BookCopyLoans);
