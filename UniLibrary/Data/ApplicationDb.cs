@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UniLibrary.Models;
-//using UniLibrary.Factories;
-//using UniLibrary.Models.RoomFunctionalities;
+using UniLibrary.Factories;
+using UniLibrary.Models.RoomFunctionalities;
 
 namespace UniLibrary.Data
 {
@@ -19,6 +19,7 @@ namespace UniLibrary.Data
         public DbSet<User>? Users { get; set; }
         public DbSet<Computer>? Computers { get; set; }
         public DbSet<Room>? Rooms { get; set; }
+        public DbSet<Reservation>? Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,7 @@ namespace UniLibrary.Data
             ConfigureComputer(modelBuilder);
             ConfigureRooms(modelBuilder);
             ConfigureFunctionality(modelBuilder);
+            ConfigureReservations(modelBuilder);
             SeedDatabase(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
@@ -158,12 +160,12 @@ namespace UniLibrary.Data
                 );
 
             modelBuilder.Entity<Loan>().HasData(
-                new Loan { LoanID = 1, MemberID = 3, StartDate = new DateTime(2022, 1, 5), DueDate = new DateTime(2022, 1, 19), ReturnDate = new DateTime(2022, 1, 19), Fee = 0 },
-                new Loan { LoanID = 2, MemberID = 1, StartDate = new DateTime(2022, 1, 19), DueDate = new DateTime(2022, 2, 2), ReturnDate = new DateTime(2022, 2, 6), Fee = 24 },
-                new Loan { LoanID = 3, MemberID = 2, StartDate = new DateTime(2022, 1, 3), DueDate = new DateTime(2022, 1, 17), ReturnDate = new DateTime(2022, 1, 16), Fee = 0 },
-                new Loan { LoanID = 4, MemberID = 2, StartDate = new DateTime(2022, 1, 30), DueDate = new DateTime(2022, 2, 13) },
-                new Loan { LoanID = 5, MemberID = 4, StartDate = new DateTime(2022, 1, 29), DueDate = new DateTime(2022, 2, 12) },
-                new Loan { LoanID = 6, MemberID = 5, StartDate = new DateTime(2022, 3, 2), DueDate = new DateTime(2022, 3, 16) }
+                new Loan { LoanID = 1, UserID = 3, StartDate = new DateTime(2022, 1, 5), DueDate = new DateTime(2022, 1, 19), ReturnDate = new DateTime(2022, 1, 19), Fee = 0 },
+                new Loan { LoanID = 2, UserID = 1, StartDate = new DateTime(2022, 1, 19), DueDate = new DateTime(2022, 2, 2), ReturnDate = new DateTime(2022, 2, 6), Fee = 24 },
+                new Loan { LoanID = 3, UserID = 2, StartDate = new DateTime(2022, 1, 3), DueDate = new DateTime(2022, 1, 17), ReturnDate = new DateTime(2022, 1, 16), Fee = 0 },
+                new Loan { LoanID = 4, UserID = 2, StartDate = new DateTime(2022, 1, 30), DueDate = new DateTime(2022, 2, 13) },
+                new Loan { LoanID = 5, UserID = 4, StartDate = new DateTime(2022, 1, 29), DueDate = new DateTime(2022, 2, 12) },
+                new Loan { LoanID = 6, UserID = 5, StartDate = new DateTime(2022, 3, 2), DueDate = new DateTime(2022, 3, 16) }
             );
             modelBuilder.Entity<BookCopy>().HasData(
                 new BookCopy { BookCopyID = 1, DetailsID = 1, IsAvailable = true },
@@ -204,11 +206,11 @@ namespace UniLibrary.Data
                 new BookCopyLoan { BookCopyID = 7, LoanID = 2 }
             );
             modelBuilder.Entity<User>().HasData(
-                new User { ID = 1, StudentID = "19855666", Name = "Daniel Graham" },
-                new User { ID = 2, StudentID = "19555661", Name = "Eric Howell" },
-                new User { ID = 3, StudentID = "19555662", Name = "Patricia Lebsack" },
-                new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir" },
-                new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert" }
+                new User { ID = 1, StudentID = "19855666", Name = "Daniel Graham", Password = "$2a$11$78t2sJGKxrsB9PP2cJWUuO1GvhRJoV2nFmMj95HzIuO4gk1envFu6" },
+                new User { ID = 2, StudentID = "19555661", Name = "Eric Howell", Password = "$2a$11$Igdtf.xsMYZHayTNyBjxBei3OE7vKXPsuHcxbnfcHWyMEwpa8GkCa" },
+                new User { ID = 3, StudentID = "19555662", Name = "Patricia Lebsack", Password = "$2a$11$5VoUc47EDdqHtTiVha2r6eASOJvEJAanyKt.iXAicbBGOUOsXikOO" },
+                new User { ID = 4, StudentID = "19555663", Name = "Kalle Runolfsdottir", Password = "$2a$11$N8oNxha16C13c5GXXLpdM.iphqpjJfN1NXVquhIkZyHdhrip9VExa" },
+                new User { ID = 5, StudentID = "19555664", Name = "Linus Reichert", Password = "$2a$11$nVN067GCsOgSUO//7kY64eNk/PAvsGcqLS1YUrNmYdiGuR8hi1N5C" }
             );
             modelBuilder.Entity<MeetingRoom>().HasData(
                 new MeetingRoom
@@ -278,12 +280,20 @@ namespace UniLibrary.Data
                     Floor = 0,
                 });
             modelBuilder.Entity<Computer>().HasData(
-                new PC(1,"1","Windows 11"),
-                new PC(2, "2", "Mac") 
+                new Computer { ID = 1, PCNum = "001", OS = "Windows 11", Availability = true },
+                new Computer { ID = 2, PCNum = "002", OS = "macOS 13", Availability = true }
+            );
+            modelBuilder.Entity<Reservation>().HasData(
+                new Reservation { ReservationID = 1, StartTime = new DateTime(2022, 1, 5, 16, 0, 0), EndTime = new DateTime(2022, 1, 5, 18, 0, 0), UserID = 3 },
+                new Reservation { ReservationID = 2, StartTime = new DateTime(2022, 1, 5, 14, 0, 0), EndTime = new DateTime(2022, 1, 5, 16, 0, 0), UserID = 4 }
+            );
+            modelBuilder.Entity<RoomReservation>().HasData(
+                new RoomReservation { ReservationID = 1, RoomID = 3 },
+                new RoomReservation { ReservationID = 2, RoomID = 1 }
             );
         }
 
-        public static void ConfigureAuthor(ModelBuilder modelBuilder)
+        private static void ConfigureAuthor(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Author>().Property(x => x.Name).HasMaxLength(55);
         }
@@ -294,25 +304,25 @@ namespace UniLibrary.Data
             modelBuilder.Entity<BookDetails>().HasOne(b => b.Author).WithMany(a => a.Books).HasForeignKey(b => b.AuthorID);
         }
 
-        public static void ConfigureBookCopyLoan(ModelBuilder modelBuilder)
+        private static void ConfigureBookCopyLoan(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookCopyLoan>().HasKey(x => new { x.BookCopyID, x.LoanID });
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.BookCopy).WithMany(p => p.BookCopyLoans).HasForeignKey(pt => pt.BookCopyID);
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.Loan).WithMany(t => t.BookCopyLoans).HasForeignKey(pt => pt.LoanID);
         }
 
-        public static void ConfigureComputer(ModelBuilder modelBuilder)
+        private static void ConfigureComputer(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Computer>().HasKey(x => x.ID);
         }
 
-        public static void ConfigureRooms(ModelBuilder modelBuilder)
+        private static void ConfigureRooms(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("RoomIds").StartsAt(10);
             modelBuilder.Entity<Room>().UseTpcMappingStrategy().Property(e => e.ID).HasDefaultValueSql("NEXT VALUE FOR RoomIds");
         }
 
-        public static void ConfigureFunctionality(ModelBuilder modelBuilder)
+        private static void ConfigureFunctionality(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Functionality>().HasNoKey();
             modelBuilder.Entity<ZoomFunctionality>();
@@ -323,6 +333,13 @@ namespace UniLibrary.Data
             modelBuilder.Entity<WhiteBoardFunctionality>();
             modelBuilder.Entity<ComputerClassFunctionality>();
             modelBuilder.Entity<NoAccessibilityFunctionality>();
+        }
+
+        private void ConfigureReservations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RoomReservation>().HasKey(x => new { x.RoomID, x.ReservationID });
+            modelBuilder.Entity<RoomReservation>().HasOne(pt => pt.Room).WithMany(p => p.RoomReservations).HasForeignKey(pt => pt.RoomID);
+            modelBuilder.Entity<RoomReservation>().HasOne(pt => pt.Reservation).WithMany(t => t.RoomReservations).HasForeignKey(pt => pt.ReservationID);
         }
 
     }
