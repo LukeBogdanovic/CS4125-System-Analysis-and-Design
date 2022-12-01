@@ -280,8 +280,8 @@ namespace UniLibrary.Data
                     Floor = 0,
                 });
             modelBuilder.Entity<Computer>().HasData(
-                new Computer { ID = 1, PCNum = "001", OS = "Windows 11", Availability = true },
-                new Computer { ID = 2, PCNum = "002", OS = "macOS 13", Availability = true }
+                new PC(1,"1","Windows 11"),
+                new PC(2, "2", "Mac")
             );
             modelBuilder.Entity<Reservation>().HasData(
                 new Reservation { ReservationID = 1, StartTime = new DateTime(2022, 1, 5, 16, 0, 0), EndTime = new DateTime(2022, 1, 5, 18, 0, 0), UserID = 3 },
