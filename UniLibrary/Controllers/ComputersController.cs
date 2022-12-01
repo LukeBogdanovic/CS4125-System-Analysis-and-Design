@@ -127,6 +127,8 @@ namespace UniLibrary.Controllers
 
         public override void Update(IAvailabilityObserver x)
         {
+            available.Clear();
+            unavailable.Clear();
             if (x.GetComputer().Availability == true)
             {
                 available.Add(x.GetComputer());
