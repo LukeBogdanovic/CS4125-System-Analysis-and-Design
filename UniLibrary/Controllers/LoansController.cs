@@ -9,7 +9,7 @@ using UniLibrary.Models;
 namespace UniLibrary.Controllers
 {
 #pragma warning disable
-    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = "AllRegisteredUsers")]
     public class LoansController : Controller
     {
         private readonly ILoanService _loanService;
