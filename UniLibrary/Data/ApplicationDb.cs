@@ -19,6 +19,7 @@ namespace UniLibrary.Data
         public DbSet<User>? Users { get; set; }
         public DbSet<Computer>? Computers { get; set; }
         public DbSet<Room>? Rooms { get; set; }
+        public DbSet<Reservation>? Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,7 @@ namespace UniLibrary.Data
             ConfigureComputer(modelBuilder);
             ConfigureRooms(modelBuilder);
             ConfigureFunctionality(modelBuilder);
+            ConfigureReservations(modelBuilder);
             SeedDatabase(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
@@ -281,9 +283,17 @@ namespace UniLibrary.Data
                 new Computer { ID = 1, PCNum = "001", OS = "Windows 11", Availability = true },
                 new Computer { ID = 2, PCNum = "002", OS = "macOS 13", Availability = true }
             );
+            modelBuilder.Entity<Reservation>().HasData(
+                new Reservation { ReservationID = 1, StartTime = new DateTime(2022, 1, 5, 16, 0, 0), EndTime = new DateTime(2022, 1, 5, 18, 0, 0), UserID = 3 },
+                new Reservation { ReservationID = 2, StartTime = new DateTime(2022, 1, 5, 14, 0, 0), EndTime = new DateTime(2022, 1, 5, 16, 0, 0), UserID = 4 }
+            );
+            modelBuilder.Entity<RoomReservation>().HasData(
+                new RoomReservation { ReservationID = 1, RoomID = 3 },
+                new RoomReservation { ReservationID = 2, RoomID = 1 }
+            );
         }
 
-        public static void ConfigureAuthor(ModelBuilder modelBuilder)
+        private static void ConfigureAuthor(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Author>().Property(x => x.Name).HasMaxLength(55);
         }
@@ -294,25 +304,25 @@ namespace UniLibrary.Data
             modelBuilder.Entity<BookDetails>().HasOne(b => b.Author).WithMany(a => a.Books).HasForeignKey(b => b.AuthorID);
         }
 
-        public static void ConfigureBookCopyLoan(ModelBuilder modelBuilder)
+        private static void ConfigureBookCopyLoan(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookCopyLoan>().HasKey(x => new { x.BookCopyID, x.LoanID });
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.BookCopy).WithMany(p => p.BookCopyLoans).HasForeignKey(pt => pt.BookCopyID);
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.Loan).WithMany(t => t.BookCopyLoans).HasForeignKey(pt => pt.LoanID);
         }
 
-        public static void ConfigureComputer(ModelBuilder modelBuilder)
+        private static void ConfigureComputer(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Computer>().HasKey(x => x.ID);
         }
 
-        public static void ConfigureRooms(ModelBuilder modelBuilder)
+        private static void ConfigureRooms(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("RoomIds").StartsAt(10);
             modelBuilder.Entity<Room>().UseTpcMappingStrategy().Property(e => e.ID).HasDefaultValueSql("NEXT VALUE FOR RoomIds");
         }
 
-        public static void ConfigureFunctionality(ModelBuilder modelBuilder)
+        private static void ConfigureFunctionality(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Functionality>().HasNoKey();
             modelBuilder.Entity<ZoomFunctionality>();
@@ -323,6 +333,13 @@ namespace UniLibrary.Data
             modelBuilder.Entity<WhiteBoardFunctionality>();
             modelBuilder.Entity<ComputerClassFunctionality>();
             modelBuilder.Entity<NoAccessibilityFunctionality>();
+        }
+
+        private void ConfigureReservations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RoomReservation>().HasKey(x => new { x.RoomID, x.ReservationID });
+            modelBuilder.Entity<RoomReservation>().HasOne(pt => pt.Room).WithMany(p => p.RoomReservations).HasForeignKey(pt => pt.RoomID);
+            modelBuilder.Entity<RoomReservation>().HasOne(pt => pt.Reservation).WithMany(t => t.RoomReservations).HasForeignKey(pt => pt.ReservationID);
         }
 
     }

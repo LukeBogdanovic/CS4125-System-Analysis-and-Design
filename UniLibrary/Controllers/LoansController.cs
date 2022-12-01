@@ -9,7 +9,7 @@ using UniLibrary.Models;
 namespace UniLibrary.Controllers
 {
 #pragma warning disable
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AllRegisteredUsers")]
     public class LoansController : Controller
     {
         private readonly ILoanService _loanService;
@@ -55,7 +55,7 @@ namespace UniLibrary.Controllers
             model.BookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: null, orderBy: null, b => b.Details, b => b.BookCopyLoans);
             return View(model);
         }
-        [Authorize(Roles = "Admin,PostGraduate,UnderGraduate")]
+        [Authorize(Policy = "AllRegisteredUsers"), HttpGet]
         public async Task<IActionResult> Create()
         {
             IEnumerable<BookCopy> bookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: x => x.IsAvailable == true, orderBy: x => x.OrderBy(x => x.Details.Title), b => b.Details, b => b.BookCopyLoans);
@@ -80,6 +80,7 @@ namespace UniLibrary.Controllers
             return View(model);
         }
 
+        [Authorize(Policy = "AllRegisteredUsers")]
         public async Task<IActionResult> Return(int id)
         {
             if (id == 0)
@@ -110,7 +111,7 @@ namespace UniLibrary.Controllers
         }
 
         #region API CALLS
-        [HttpPost, Authorize(Roles = "Admin,PostGraduate,UnderGraduate")]
+        [HttpPost]
         public async Task<IActionResult> Create(LoanViewModel model, int id, int[] ids)
         {
             try
@@ -119,9 +120,9 @@ namespace UniLibrary.Controllers
                 model.User = user;
                 IEnumerable<BookCopy> bookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: b => b.IsAvailable == true, orderBy: null, b => b.Details, b => b.BookCopyLoans);
                 int borrowedCopies = 0;
-                if (user.Loans != null)
+                if (model.User.Loans != null)
                 {
-                    foreach (var loan in user.Loans)
+                    foreach (var loan in model.User.Loans)
                     {
                         if (loan.ReturnDate == DateTime.MinValue)
                         {
@@ -134,7 +135,7 @@ namespace UniLibrary.Controllers
                     }
                 }
                 int bookCopiesToBorrow = 0;
-                foreach (var loan in user.Loans)
+                foreach (var loan in model.User.Loans)
                 {
                     var bookCopyLoans = loan.BookCopyLoans.Where(l => l.LoanID == loan.LoanID).Select(x => x.BookCopy.Details.Title).Count();
                     if (bookCopyLoans != null)
