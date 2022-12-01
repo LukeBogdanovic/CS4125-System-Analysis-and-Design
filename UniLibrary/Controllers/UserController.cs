@@ -141,9 +141,12 @@ namespace UniLibrary.Controllers
             {
                 if (item.StudentID == studentID)
                 {
+                    TempData["UserID"] = item.ID;
+                    TempData["UserName"] = item.Name;
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name,studentID)
+                        new Claim(ClaimTypes.Name,studentID),
+                        new Claim("AllRegisteredUsers","true")
                     };
                     if (item.Type == UserType.Admin)
                         claims.Add(new Claim("Admin", "true"));

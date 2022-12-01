@@ -22,12 +22,15 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IComputerService, ComputerService>();
+builder.Services.AddScoped<IReserveService, ReservationService>();
+builder.Services.AddScoped<IRoomReservationService, RoomReservationService>();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
     options.AddPolicy("PostGraduate", policy => policy.RequireClaim("PostGraduate"));
     options.AddPolicy("UnderGraduate", policy => policy.RequireClaim("UnderGraduate"));
+    options.AddPolicy("AllRegisteredUsers", policy => policy.RequireClaim("AllRegisteredUsers"));
 });
 builder.Services.AddRazorPages();
 var app = builder.Build();
