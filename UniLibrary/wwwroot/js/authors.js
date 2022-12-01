@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var table = $("#authors").DataTable({
+  let table = $("#authors").DataTable({
     ajax: {
       url: "/authors/getAll",
     },
@@ -21,7 +21,7 @@ $(document).ready(function () {
     ],
   });
   $("#authors").on("click", ".js-delete", function () {
-    var button = $(this);
+    let button = $(this);
     Swal.fire({
       title: `Are you sure you want to delete this author ?`,
       icon: "warning",

@@ -40,7 +40,7 @@ namespace UniLibrary.Controllers
         public async Task<IActionResult> Create()
         {
             IEnumerable<Author> authors = await _authorService.GetAllAuthorsAsync(filter: null, orderBy: null, includeProperties: a => a.Books);
-
+            // Creating new BookDetails view model object
             BookDetailsViewModel model = new()
             {
                 BookDetails = new(),
@@ -130,8 +130,8 @@ namespace UniLibrary.Controllers
 
             };
 
-            // update
-            model.BookDetails = await _bookService.GetBookOrDefaultAsync(b => b.ID == id, includeProperties: "Copies");
+            // update the bookdetails variable of the BookDetailsViewModel object
+            model.BookDetails = _bookService.GetBookOrDefault(b => b.ID == id, includeProperties: "Copies");
             return View(model);
         }
 
@@ -167,13 +167,13 @@ namespace UniLibrary.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == 0)
+            {
                 return NotFound();
-
+            }
             IReadOnlyList<BookCopy> bookCopies = await _bookCopyService.GetAllBookCopiesAsync(x => x.DetailsID == id);
-
             BookDetailsViewModel model = new()
             {
-                BookDetails = await _bookService.GetBookOrDefaultAsync(x => x.ID == id, "Author"),
+                BookDetails = _bookService.GetBookOrDefault(x => x.ID == id, "Author"),
                 BookCopies = bookCopies.Select(i => new SelectListItem
                 {
                     Text = i.BookCopyID.ToString(),
@@ -181,10 +181,10 @@ namespace UniLibrary.Controllers
                 }),
                 Copies = bookCopies.Count
             };
-
             if (model == null)
+            {
                 return NotFound();
-
+            }
             return View(model);
         }
 
@@ -200,7 +200,6 @@ namespace UniLibrary.Controllers
         public async Task<IActionResult> GetAll(string status)
         {
             IEnumerable<BookDetails> books = await _bookService.GetAllAsync();
-
             switch (status)
             {
                 case "isAvailable":
@@ -212,7 +211,6 @@ namespace UniLibrary.Controllers
                 default:
                     break;
             }
-
             return Json(new { data = books });
         }
 
@@ -222,26 +220,21 @@ namespace UniLibrary.Controllers
         {
             try
             {
-                BookDetails book = await _bookService.GetBookOrDefaultAsync(c => c.ID == id, includeProperties: "Author");
-
+                BookDetails book = _bookService.GetBookOrDefault(c => c.ID == id, includeProperties: "Author");
                 //Create new book
                 BookCopy copy = new()
                 {
                     DetailsID = book.ID,
-                    Details = await _bookService.GetBookOrDefaultAsync(b => b.ID == id),
+                    Details = _bookService.GetBookOrDefault(b => b.ID == id),
                     IsAvailable = true,
                 };
-
                 BookCopy addedCopy = await _bookCopyService.AddAsync(copy);
-
                 return Json(new { success = true, message = "Book copy " + addedCopy.BookCopyID + " added successfully." });
-
             }
             catch (Exception)
             {
                 return Json(new { error = true, message = "Something went wrong!" });
             }
-
             return Json(new { error = true, message = "An unexpected error occurred!" });
         }
 
@@ -252,16 +245,14 @@ namespace UniLibrary.Controllers
             if (id != 0)
             {
                 var bookCopyInDb = await _bookCopyService.GetBookCopyOrDefaultAsync(filter: b => b.BookCopyID == id);
-
-                var boocopyLoan = await _bookCopyLoanService.GetBookCopyLoanOrDefaultAsync(x => x.BookCopyID == bookCopyInDb.BookCopyID);
-
+                var boocopyLoan = _bookCopyLoanService.GetBookCopyLoanOrDefault(x => x.BookCopyID == bookCopyInDb.BookCopyID);
                 // Check if book copy is loaned
                 if (boocopyLoan != null)
+                {
                     return Json(new { error = true, message = "This book copy could not be deleted. It first has to be returned(check loans)!" });
-
+                }
                 // Delete book copy loan
                 await _bookCopyService.DeleteAsync(id);
-
                 return Json(new { success = true, message = "Book copy " + id + " deleted successfully." });
             }
             return Json(new { error = true, message = "An unexpected error occurred." });
@@ -272,26 +263,23 @@ namespace UniLibrary.Controllers
         {
             if (id != 0)
             {
-
                 var bookInDB = await _bookService.GetByIDAsync(id);
                 var bookCopiesInDb = await _bookCopyService.GetAllBookCopiesAsync(filter: b => b.DetailsID == bookInDB.ID);
                 List<BookCopy> bookCopiesTobeDeleted = new List<BookCopy>();
-
                 foreach (var bookCopy in bookCopiesInDb)
                 {
-                    var boocopyLoan = await _bookCopyLoanService.GetBookCopyLoanOrDefaultAsync(x => x.BookCopyID == bookCopy.BookCopyID);
-
+                    var bookcopyLoan = _bookCopyLoanService.GetBookCopyLoanOrDefault(x => x.BookCopyID == bookCopy.BookCopyID);
                     // Check if book copy is loaned
-                    if (boocopyLoan == null)
-
+                    if (bookcopyLoan == null)
+                    {
                         bookCopiesTobeDeleted.Add(bookCopy);
+                    }
                 }
 
                 if (bookCopiesTobeDeleted.Count > 0)
                 {
                     _bookCopyService.RemoveRange(bookCopiesTobeDeleted);
                     await _bookService.UpdateAsync(bookInDB);
-
                     return Json(new { success = true, message = "Book copies deleted successfully." });
                 }
                 else
@@ -299,7 +287,6 @@ namespace UniLibrary.Controllers
                     return Json(new { error = true, message = "Book copies could not be deleted. They first has to be returned(check loans)!" });
                 }
             }
-
             return Json(new { error = true, message = "An unexpected error occurred." });
         }
 
@@ -308,35 +295,31 @@ namespace UniLibrary.Controllers
         {
             if (id != 0)
             {
-                var bookInDB = await _bookService.GetBookOrDefaultAsync(b => b.ID == id);
+                var bookInDB = _bookService.GetBookOrDefault(b => b.ID == id);
                 var bookCopiesInDb = await _bookCopyService.GetAllBookCopiesAsync(filter: c => c.DetailsID == bookInDB.ID);
                 List<BookCopy> bookCopiesTobeDeleted = new List<BookCopy>();
-
                 foreach (var bookCopy in bookCopiesInDb)
                 {
-                    var boocopyLoan = await _bookCopyLoanService.GetBookCopyLoanOrDefaultAsync(x => x.BookCopyID == bookCopy.BookCopyID);
-
+                    var bookcopyLoan = _bookCopyLoanService.GetBookCopyLoanOrDefault(x => x.BookCopyID == bookCopy.BookCopyID);
                     // Check if book copy is loaned
-                    if (boocopyLoan == null)
+                    if (bookcopyLoan == null)
+                    {
                         bookCopiesTobeDeleted.Add(bookCopy);
+                    }
                 }
-
                 if (bookCopiesTobeDeleted.Count >= 0)
                 {
                     // delete book copies
                     _bookCopyService.RemoveRange(bookCopiesTobeDeleted);
                     await _bookService.UpdateAsync(bookInDB);
-
                     // delete book
                     await _bookService.DeleteAsync(bookInDB.ID);
-
                     return Json(new { success = true, message = "Book and related copies deleted successfully." });
                 }
                 else
                 {
                     return Json(new { error = true, message = "You can not delete this book as long it has loans refering to it (check loans)!" });
                 }
-
             }
             else
             {
@@ -345,6 +328,5 @@ namespace UniLibrary.Controllers
             return Json(new { error = true, message = "An unexpected error occurred." });
         }
         #endregion
-
     }
 }
