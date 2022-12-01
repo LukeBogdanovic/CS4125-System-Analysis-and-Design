@@ -1,4 +1,5 @@
 @model UniLibrary.ViewModels.LoanViewModel
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Loans";
@@ -40,12 +41,13 @@
                         <span>Show All</span>
                     </a>
                 </li>
-
-                <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+                {
+                    <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
                     style="text-decoration:none; vertical-align: middle;" asp-controller="Loans" asp-action="Create">
-                    <em class="align-middle  bi bi-plus-circle"></em> <span class="align-middle">&nbsp; New</span>
-                </a>
-
+                        <em class="align-middle  bi bi-plus-circle"></em> <span class="align-middle">&nbsp; New</span>
+                    </a>
+                }
             </ul>
         </div>
     </div>
@@ -113,11 +115,14 @@
                     <td>
                         @Html.DisplayName("€"+item.Fee.ToString())
                     </td>
-                    <td>
-                        <a class='btn-link js-delete' data-loan-id=@item.LoanID>
-                            <i class='bi bi-trash-fill' style='color: #ff4136; cursor:pointer;'></i>
-                        </a>
-                    </td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+                    {
+                        <td>
+                            <a class='btn-link js-delete' data-loan-id=@item.LoanID>
+                                <i class='bi bi-trash-fill' style='color: #ff4136; cursor:pointer;'></i>
+                            </a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

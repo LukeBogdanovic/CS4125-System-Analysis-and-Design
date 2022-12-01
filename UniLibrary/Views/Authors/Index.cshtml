@@ -1,4 +1,5 @@
 @model IEnumerable<UniLibrary.Models.Author>
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Authors";
@@ -9,12 +10,14 @@
         <div class="col-6">
             <h2 class="text-primary">Authors</h2>
         </div>
-
-        <div class="col-6 text-right">
-            <a class="btn btn-primary" asp-controller="Authors" asp-action="Create">
-                <em class="bi bi-plus-circle"></em> &nbsp; New
-            </a>
-        </div>
+        @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+        {
+            <div class="col-6 text-right">
+                <a class="btn btn-primary" asp-controller="Authors" asp-action="Create">
+                    <em class="bi bi-plus-circle"></em> &nbsp; New
+                </a>
+            </div>
+        }
     </div>
     <br />
     <table id="authors" class="table table-striped table-hover w-100">
@@ -33,7 +36,6 @@
         </thead>
     </table>
 </div>
-
 @section Scripts
 {
 <script src="~/js/authors.js"></script>

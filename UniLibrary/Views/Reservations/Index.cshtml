@@ -56,11 +56,12 @@
     <table id="loans" class="table table-hover">
         <thead>
             <tr class="bg-light">
-                <th> @Html.DisplayName("Student ID")</th>
-                <th> @Html.DisplayName("User Name")</th>
-                <th> @Html.DisplayName("Reservations")</th>
-                <th> @Html.DisplayNameFor(model => model.Reservation.StartTime)</th>
-                <th> @Html.DisplayNameFor(model => model.Reservation.EndTime)</th>
+                <th>@Html.DisplayName("Student ID")</th>
+                <th>@Html.DisplayName("User Name")</th>
+                <th>@Html.DisplayName("Room Reserved")</th>
+                <th>@Html.DisplayName("Date")</th>
+                <th>@Html.DisplayNameFor(model => model.Reservation.StartTime)</th>
+                <th>@Html.DisplayNameFor(model => model.Reservation.EndTime)</th>
                 <th></th>
             </tr>
         </thead>
@@ -75,12 +76,13 @@
                         @Html.ActionLink(item.User.Name, "Details", "User", new {id = item.UserID})
                     </td>
                     @{
-                        var bookCopyLoans = item.RoomReservations.Where(l => l.ReservationID == item.ReservationID).Select(x =>
-                    x.Room.Name).Count();
                         <td>
-                            @Html.DisplayName(bookCopyLoans.ToString())
+                            @Html.DisplayName(item.RoomReservations[0].Room.Name)
                         </td>
                     }
+                    <td>
+                        @Html.DisplayName(item.StartTime.ToShortDateString())
+                    </td>
                     <td>
                         @Html.DisplayName(item.StartTime.ToShortTimeString())
                     </td>

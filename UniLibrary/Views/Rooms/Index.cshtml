@@ -1,5 +1,5 @@
 @model IEnumerable<UniLibrary.Factories.Room>
-
+@inject IAuthorizationService AuthorizationService
 @{
     ViewData["Title"] = "Book";
 }
@@ -11,10 +11,13 @@
         </div>
         <div class="row">
             <ul class="list-group list-group-horizontal-sm col-12">
-                <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+                {
+                    <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
                     style="text-decoration:none; vertical-align: middle;" asp-controller="Rooms" asp-action="Create">
-                    <em class="align-middle  bi bi-plus-circle"></em> <span class="align-middle">&nbsp; New</span>
-                </a>
+                        <em class="align-middle  bi bi-plus-circle"></em> <span class="align-middle">&nbsp; New</span>
+                    </a>
+                }
             </ul>
         </div>
     </div>
