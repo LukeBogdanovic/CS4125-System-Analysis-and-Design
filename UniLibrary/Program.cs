@@ -30,6 +30,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
     options.AddPolicy("PostGraduate", policy => policy.RequireClaim("PostGraduate"));
     options.AddPolicy("UnderGraduate", policy => policy.RequireClaim("UnderGraduate"));
+    options.AddPolicy("AllRegisteredUsers", policy => policy.RequireClaim("AllRegisteredUsers"));
 });
 builder.Services.AddRazorPages();
 var app = builder.Build();
