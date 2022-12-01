@@ -486,7 +486,7 @@ namespace UniLibrary.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
-                    b.Property<string>("PCNum")
+                    b.Property<string>("ComNum")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");

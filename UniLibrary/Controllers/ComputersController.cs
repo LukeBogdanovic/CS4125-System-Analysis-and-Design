@@ -108,4 +108,74 @@ namespace UniLibrary.Controllers
             return await _computerService.GetByIDAsync(id) != null;
         }
     }
+
+    public class PCAvailabilityObserver : IAvailabilityObserver
+    {
+        private string ComNum;
+        private PC pc;
+        public List<Computer> available = new List<Computer>();
+        public List<Computer> unavailable = new List<Computer>();
+
+
+        // Constructor
+
+        public PCAvailabilityObserver(PC pc, string ComNum)
+        {
+            this.pc = pc;
+            this.ComNum = ComNum;
+        }
+
+        public override void Update(IAvailabilityObserver x)
+        {
+            if (x.GetComputer().Availability == true)
+            {
+                available.Add(x.GetComputer());
+            } 
+            else
+            {
+                unavailable.Add(x.GetComputer());
+            }
+
+        }
+        
+        public override PC GetComputer()
+        {
+            return pc;
+        }
+    }
+
+    public class LaptopAvailabilityObserver : IAvailabilityObserver
+    {
+        private string ComNum;
+        private PC pc;
+        public List<Computer> available = new List<Computer>();
+        public List<Computer> unavailable = new List<Computer>();
+
+
+        // Constructor
+
+        public LaptopAvailabilityObserver(PC pc, string ComNum)
+        {
+            this.pc = pc;
+            this.ComNum = ComNum;
+            
+        }
+        public override PC GetComputer()
+        {
+            return pc;
+        }
+
+        public override void Update(IAvailabilityObserver x)
+        {
+            if (x.GetComputer().Availability == true)
+            {
+                available.Add(x.GetComputer());
+            } 
+            else
+            {
+                unavailable.Add(x.GetComputer());
+            }
+
+        }
+    }
 }

@@ -13,6 +13,7 @@ namespace UniLibrary.Models
     public abstract class Computer
     {
         private List<IAvailabilityObserver> obs = new List< IAvailabilityObserver>();
+        
 
         public int ID { get; set; }
         [StringLength(60, MinimumLength = 3)]
@@ -46,8 +47,14 @@ namespace UniLibrary.Models
         {
             foreach (IAvailabilityObserver x in obs)
             {
-                //x.Update(this);
+              x.Update(x);
             }
+        }
+
+        public void ChangeAvailability(Computer comp, bool x)
+        {
+            comp.Availability= x;
+            Notify();
         }
     }
     public class PC : Computer
@@ -57,7 +64,11 @@ namespace UniLibrary.Models
         : base(ID, ComNum, OS)
         {
         }
+
+
     }
+
+    
 
     public class Laptop : Computer
     {
@@ -70,47 +81,8 @@ namespace UniLibrary.Models
 
     public abstract class IAvailabilityObserver
     {
-        public abstract void Update();
-    }
-
-    public class PCAvailabilityObserver : IAvailabilityObserver
-    {
-        private string ComNum;
-        private PC pc;
-
-
-        // Constructor
-
-        public PCAvailabilityObserver(PC pc, string ComNum)
-        {
-            this.pc = pc;
-            this.ComNum = ComNum;
-        }
-
-        public override void Update()
-        {
-           
-        }
-    }
-
-    public class LaptopAvailabilityObserver : IAvailabilityObserver
-    {
-        private string ComNum;
-        private PC pc;
-
-
-        // Constructor
-
-        public LaptopAvailabilityObserver(PC pc, string ComNum)
-        {
-            this.pc = pc;
-            this.ComNum = ComNum;
-        }
-
-        public override void Update()
-        {
-           
-        }
+        public abstract void Update(IAvailabilityObserver x);
+        public abstract Computer GetComputer();
     }
 } 
 

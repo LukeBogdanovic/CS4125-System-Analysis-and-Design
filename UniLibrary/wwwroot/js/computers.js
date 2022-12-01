@@ -5,7 +5,7 @@ $(document).ready(function () {
     },
     columns: [
       {
-        data: "pcNum",
+        data: "ComNum",
       },
       {
         data: "os",
