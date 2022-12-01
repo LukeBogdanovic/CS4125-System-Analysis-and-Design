@@ -1,0 +1,106 @@
+@model UniLibrary.ViewModels.ReservationViewModel
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Reservations";
+
+    var status = Context.Request.Query["status"];
+    var isActive = "text-secondary";
+    var all = "text-secondary";
+
+    switch (status)
+    {
+        case "isActive":
+            isActive = "active text-white";
+            break;
+        case "all":
+            all = "active text-white";
+            break;
+        default:
+            break;
+    }
+#pragma warning disable
+}
+
+<div class="p-3">
+    <div class="d-flex justify-content-between pt-4">
+        <div class="">
+            <h2 class="text-primary">Reservations</h2>
+        </div>
+        <div class="row">
+            <ul class="list-group list-group-horizontal-sm col-12">
+                <li class="btn-group btn-group-toggle">
+                    <a style="text-decoration:none;"
+                        class="books-button btn btn-outline-secondary mt-2 mt-sm-0 py-2 px-3 @isActive"
+                        asp-controller="Reservations" asp-action="Index" asp-route-status="isActive">
+                        <span>Active Reservations</span>
+                    </a>
+                    <a style="text-decoration:none;"
+                        class="books-button btn btn-outline-secondary mt-2 mt-sm-0 py-2 px-3 @all"
+                        asp-controller="Reservations" asp-action="Index" asp-route-status="all">
+                        <span>Show All</span>
+                    </a>
+                </li>
+
+                <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
+                    style="text-decoration:none; vertical-align: middle;" asp-controller="Reservations"
+                    asp-action="Create">
+                    <i class="align-middle  bi bi-plus-circle"></i> <span class="align-middle">&nbsp; New</span>
+                </a>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="p-3">
+    <table id="loans" class="table table-hover">
+        <thead>
+            <tr class="bg-light">
+                <th> @Html.DisplayName("Student ID")</th>
+                <th> @Html.DisplayName("User Name")</th>
+                <th> @Html.DisplayName("Reservations")</th>
+                <th> @Html.DisplayNameFor(model => model.Reservation.StartTime)</th>
+                <th> @Html.DisplayNameFor(model => model.Reservation.EndTime)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Reservations)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.StudentID)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.User.Name, "Details", "User", new {id = item.UserID})
+                    </td>
+                    @{
+                        var bookCopyLoans = item.RoomReservations.Where(l => l.ReservationID == item.ReservationID).Select(x =>
+                    x.Room.Name).Count();
+                        <td>
+                            @Html.DisplayName(bookCopyLoans.ToString())
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayName(item.StartTime.ToShortTimeString())
+                    </td>
+                    <td>
+                        @Html.DisplayName(item.EndTime.ToShortTimeString())
+                    </td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+                    {
+                        <td>
+                            <a class='btn-link js-delete' data-reservation-id=@item.ReservationID>
+                                <i class='bi bi-trash-fill' style='color: #ff4136; cursor:pointer;'></i>
+                            </a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+<script src="~/js/reservations.js"></script>
+}

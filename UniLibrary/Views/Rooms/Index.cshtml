@@ -1,0 +1,45 @@
+@model IEnumerable<UniLibrary.Factories.Room>
+
+@{
+    ViewData["Title"] = "Book";
+}
+
+<div class="p-3">
+    <div class="d-flex justify-content-between pt-4">
+        <div class="">
+            <h2 class="text-primary">Rooms</h2>
+        </div>
+        <div class="row">
+            <ul class="list-group list-group-horizontal-sm col-12">
+                <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
+                    style="text-decoration:none; vertical-align: middle;" asp-controller="Rooms" asp-action="Create">
+                    <em class="align-middle  bi bi-plus-circle"></em> <span class="align-middle">&nbsp; New</span>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="p-3">
+    <table id="Rooms" class="table table-striped table-hover display">
+        <caption></caption>
+        <thead>
+            <tr class="bg-light">
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Capacity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Floor)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts
+{
+<script src="~/js/rooms.js"></script>
+}
