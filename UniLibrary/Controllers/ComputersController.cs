@@ -103,6 +103,50 @@ namespace UniLibrary.Controllers
             return Json(new { data = computers });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Loan(int id)
+        {
+            var computerInDb = await _computerService.GetByIDAsync(id);
+            switch (computerInDb)
+            {
+                case PC:
+                    PC computer = (PC)computerInDb;
+                    computer.Attach(new PCAvailabilityObserver(computer, computer.ComNum));
+                    computer.ChangeAvailability(computer, false);
+                    await _computerService.UpdateAsync(computer);
+                    return Json(new { success = true, message = $"Computer {computerInDb.ComNum} borrowed successfully" });
+                case Laptop:
+                    Laptop laptop = (Laptop)computerInDb;
+                    laptop.Attach(new LaptopAvailabilityObserver(laptop, laptop.ComNum));
+                    laptop.ChangeAvailability(laptop, false);
+                    await _computerService.UpdateAsync(laptop);
+                    return Json(new { success = true, message = $"Laptop {computerInDb.ComNum} borrowed successfully" });
+            }
+            return Json(new { error = true, message = "Unable to borrow successfully" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Return(int id)
+        {
+            var computerInDb = await _computerService.GetByIDAsync(id);
+            switch (computerInDb)
+            {
+                case PC:
+                    PC computer = (PC)computerInDb;
+                    computer.Attach(new PCAvailabilityObserver(computer, computer.ComNum));
+                    computer.ChangeAvailability(computer, true);
+                    await _computerService.UpdateAsync(computer);
+                    return Json(new { success = true, message = $"Computer {computerInDb.ComNum} returned successfully" });
+                case Laptop:
+                    Laptop laptop = (Laptop)computerInDb;
+                    laptop.Attach(new LaptopAvailabilityObserver(laptop, laptop.ComNum));
+                    laptop.ChangeAvailability(laptop, true);
+                    await _computerService.UpdateAsync(laptop);
+                    return Json(new { success = true, message = $"Laptop {computerInDb.ComNum} returned successfully" });
+            }
+            return Json(new { error = true, message = "Unable to return successfully" });
+        }
+
         private async Task<bool> ComputerExists(int id)
         {
             return await _computerService.GetByIDAsync(id) != null;
@@ -132,14 +176,14 @@ namespace UniLibrary.Controllers
             if (x.GetComputer().Availability == true)
             {
                 available.Add(x.GetComputer());
-            } 
+            }
             else
             {
                 unavailable.Add(x.GetComputer());
             }
 
         }
-        
+
         public override PC GetComputer()
         {
             return pc;
@@ -149,22 +193,22 @@ namespace UniLibrary.Controllers
     public class LaptopAvailabilityObserver : IAvailabilityObserver
     {
         private string ComNum;
-        private PC pc;
+        private Laptop laptop;
         public List<Computer> available = new List<Computer>();
         public List<Computer> unavailable = new List<Computer>();
 
 
         // Constructor
 
-        public LaptopAvailabilityObserver(PC pc, string ComNum)
+        public LaptopAvailabilityObserver(Laptop laptop, string ComNum)
         {
-            this.pc = pc;
+            this.laptop = laptop;
             this.ComNum = ComNum;
-            
+
         }
-        public override PC GetComputer()
+        public override Laptop GetComputer()
         {
-            return pc;
+            return laptop;
         }
 
         public override void Update(IAvailabilityObserver x)
@@ -172,7 +216,7 @@ namespace UniLibrary.Controllers
             if (x.GetComputer().Availability == true)
             {
                 available.Add(x.GetComputer());
-            } 
+            }
             else
             {
                 unavailable.Add(x.GetComputer());

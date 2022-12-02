@@ -279,9 +279,12 @@ namespace UniLibrary.Data
                     Capacity = 12,
                     Floor = 0,
                 });
-            modelBuilder.Entity<Computer>().HasData(
-                new PC(1,"1","Windows 11"),
+            modelBuilder.Entity<PC>().HasData(
+                new PC(1, "1", "Windows 11"),
                 new PC(2, "2", "Mac")
+            );
+            modelBuilder.Entity<Laptop>().HasData(
+                new Laptop(3, "3", "Windows 11")
             );
             modelBuilder.Entity<Reservation>().HasData(
                 new Reservation { ReservationID = 1, StartTime = new DateTime(2022, 1, 5, 16, 0, 0), EndTime = new DateTime(2022, 1, 5, 18, 0, 0), UserID = 3 },
@@ -311,11 +314,6 @@ namespace UniLibrary.Data
             modelBuilder.Entity<BookCopyLoan>().HasOne(pt => pt.Loan).WithMany(t => t.BookCopyLoans).HasForeignKey(pt => pt.LoanID);
         }
 
-        private static void ConfigureComputer(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Computer>().HasKey(x => x.ID);
-        }
-
         private static void ConfigureRooms(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("RoomIds").StartsAt(10);
@@ -335,11 +333,17 @@ namespace UniLibrary.Data
             modelBuilder.Entity<NoAccessibilityFunctionality>();
         }
 
-        private void ConfigureReservations(ModelBuilder modelBuilder)
+        private static void ConfigureReservations(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RoomReservation>().HasKey(x => new { x.RoomID, x.ReservationID });
             modelBuilder.Entity<RoomReservation>().HasOne(pt => pt.Room).WithMany(p => p.RoomReservations).HasForeignKey(pt => pt.RoomID);
             modelBuilder.Entity<RoomReservation>().HasOne(pt => pt.Reservation).WithMany(t => t.RoomReservations).HasForeignKey(pt => pt.ReservationID);
+        }
+
+        private static void ConfigureComputer(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasSequence<int>("PCIds").StartsAt(4);
+            modelBuilder.Entity<Computer>().UseTpcMappingStrategy().Property(e => e.ID).HasDefaultValueSql("NEXT VALUE FOR PCIds");
         }
 
     }

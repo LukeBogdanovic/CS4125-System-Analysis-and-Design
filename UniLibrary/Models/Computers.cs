@@ -12,8 +12,7 @@ namespace UniLibrary.Models
 {
     public abstract class Computer
     {
-        private List<IAvailabilityObserver> obs = new List< IAvailabilityObserver>();
-        
+        private List<IAvailabilityObserver> obs = new List<IAvailabilityObserver>();
 
         public int ID { get; set; }
         [StringLength(60, MinimumLength = 3)]
@@ -24,7 +23,7 @@ namespace UniLibrary.Models
         public string? OS { get; set; }
         [StringLength(30)]
         [Required]
-        public bool Availability { get; set; }   
+        public bool Availability { get; set; }
 
         //constructer 
         public Computer(int ID, string? ComNum, string? OS)
@@ -47,20 +46,20 @@ namespace UniLibrary.Models
         {
             foreach (IAvailabilityObserver x in obs)
             {
-              x.Update(x);
+                x.Update(x);
             }
         }
 
         public void ChangeAvailability(Computer comp, bool x)
         {
-            comp.Availability= x;
+            comp.Availability = x;
             Notify();
         }
     }
     public class PC : Computer
     {
         //constructer
-        public PC (int ID, string? ComNum, string? OS)
+        public PC(int ID, string? ComNum, string? OS)
         : base(ID, ComNum, OS)
         {
         }
@@ -68,12 +67,12 @@ namespace UniLibrary.Models
 
     }
 
-    
+
 
     public class Laptop : Computer
     {
         //constructer
-        public Laptop (int ID, string? ComNum, string? OS)
+        public Laptop(int ID, string? ComNum, string? OS)
         : base(ID, ComNum, OS)
         {
         }
@@ -84,10 +83,4 @@ namespace UniLibrary.Models
         public abstract void Update(IAvailabilityObserver x);
         public abstract Computer GetComputer();
     }
-} 
-
-
-
-
-    
-
+}
