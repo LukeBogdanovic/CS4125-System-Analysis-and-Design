@@ -14,6 +14,15 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Loans" asp-action="Index">Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Rooms" asp-action="Index">Rooms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Computers" asp-action="Index">Computers</a>
+                    </li>
                     @if (User!.Identity!.IsAuthenticated)
                     {
                         <li class="nav-item">
