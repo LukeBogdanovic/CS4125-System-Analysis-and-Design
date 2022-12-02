@@ -24,8 +24,12 @@ namespace UniLibrary.Observer
             return laptop;
         }
 
+        //Clears both the available and unavilable lists and sorts through the computers,
+        //putting them in the list that corresponds to their availability.
         public void Update(IAvailabilityObserver x)
         {
+            available.Clear();
+            unavailable.Clear();
             if (x.GetComputer().Availability == true)
             {
                 available.Add(x.GetComputer());
