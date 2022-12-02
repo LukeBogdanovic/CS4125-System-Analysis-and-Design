@@ -26,14 +26,21 @@ namespace UniLibrary.Models
             this.Availability = true;
         }
 
+        //adds observer to the computer object
+
         public void Attach(IAvailabilityObserver x)
         {
             obs.Add(x);
         }
+        //takes observer off the computer object
+
         public void Detach(IAvailabilityObserver x)
         {
             obs.Remove(x);
         }
+
+        //Goes through the list of observers attached to an object and runs the update function
+        //on them all. This is run anytime the availability of a computer is changed.
         public void Notify()
         {
             foreach (IAvailabilityObserver x in obs)
@@ -42,6 +49,7 @@ namespace UniLibrary.Models
             }
         }
 
+        //Changes availability of the computer object and runs the Notify function.
         public void ChangeAvailability(Computer comp, bool x)
         {
             comp.Availability = x;
