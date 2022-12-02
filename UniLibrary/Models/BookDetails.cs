@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace UniLibrary.Models
 {
     public class BookDetails

@@ -1,6 +1,4 @@
 using UniLibrary.Models;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace UniLibrary.Interfaces
