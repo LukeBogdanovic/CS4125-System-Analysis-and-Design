@@ -6,5 +6,6 @@ namespace UniLibrary.Interfaces
     {
         void Update(IAvailabilityObserver x);
         Computer GetComputer();
+        void clearLists();
     }
 }

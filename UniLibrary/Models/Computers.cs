@@ -42,10 +42,16 @@ namespace UniLibrary.Models
         //Goes through the list of observers attached to an object and runs the update function
         //on them all. This is run anytime the availability of a computer is changed.
         public void Notify()
-        {
+        {   
+            foreach (IAvailabilityObserver x in obs)
+            {
+                x.clearLists();
+                
+            }
             foreach (IAvailabilityObserver x in obs)
             {
                 x.Update(x);
+                
             }
         }
 
