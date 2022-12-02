@@ -1,4 +1,3 @@
-using UniLibrary.Models.Utilities;
 using UniLibrary.Decorator;
 using UniLibrary.Models.Enums;
 
@@ -20,7 +19,7 @@ namespace UniLibrary.Models
         public Loan()
         {
             StartDate = DateTime.Now;
-            DueDate = DateTime.Now.AddDays(FeeSettings.Days);
+            DueDate = DateTime.Now.AddDays(14);
         }
         public double setFee(int copies, UserType type = UserType.UnderGraduate)
         {
