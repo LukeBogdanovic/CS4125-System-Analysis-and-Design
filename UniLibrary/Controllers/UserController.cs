@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Security.Claims;
 using UniLibrary.Models.Enums;
-using BCrypt.Net;
 
 namespace UniLibrary.Controllers
 {
