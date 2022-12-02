@@ -128,6 +128,23 @@ namespace UniLibrary.Controllers
             try
             {
                 var user = await _userService.GetUserByIdAsync(id, includeProperties: true);
+                StrategyContext strategyContext;
+                var bookStatus = 0;
+                switch (user.Type)
+                {
+                    case UserType.Admin:
+                        strategyContext = new StrategyContext(new BookStatusAdmin());
+                        bookStatus = strategyContext.executeStrategy(BookStatus.Max);
+                        break;
+                    case UserType.PostGraduate:
+                        strategyContext = new StrategyContext(new BookStatusPostGrad());
+                        bookStatus = strategyContext.executeStrategy(BookStatus.Max);
+                        break;
+                    case UserType.UnderGraduate:
+                        strategyContext = new StrategyContext(new BookStatusUnderGrad());
+                        bookStatus = strategyContext.executeStrategy(BookStatus.Max);
+                        break;
+                }
                 model.User = user;
                 IEnumerable<BookCopy> bookCopies = await _bookCopyService.GetAllBookCopiesAsync(filter: b => b.IsAvailable == true, orderBy: null, b => b.Details, b => b.BookCopyLoans);
                 int borrowedCopies = 0;
@@ -155,7 +172,7 @@ namespace UniLibrary.Controllers
                     }
                 }
                 var totalBookCount = borrowedCopies + bookCopiesToBorrow;
-                if (totalBookCount <= BookStatus.Max)
+                if (totalBookCount <= bookStatus)
                 {
                     if (model.Loan == null)
                     {
