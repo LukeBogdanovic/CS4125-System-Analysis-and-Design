@@ -30,6 +30,50 @@ namespace UniLibrary.Controllers
             return View();
         }
 
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RoomViewModel model)
+        {
+            try
+            {
+                foreach (var item in await _roomService.GetAllRoomsAsync())
+                {
+                    if (item.Name != model.Name)
+                    {
+                        Room? room = null;
+                        switch (model.Room!.ToString())
+                        {
+                            case "MeetingRoom":
+                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.MeetingRoom);
+                                break;
+                            case "StudyRoom":
+                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.StudyRoom);
+                                break;
+                            case "ComputerRoom":
+                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.ComputerRoom);
+                                break;
+                            case "ConferenceRoom":
+                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.ConferenceRoom);
+                                break;
+                        }
+                        room!.Name = model.Name;
+                        room.Capacity = model.Capacity;
+                        room.Floor = model.Floor;
+                        await _roomService.AddAsync(room);
+                        return Json(new { success = true, message = "Room Created Succcessfully" });
+                    }
+                    else
+                    {
+                        return Json(new { error = true, message = "Room Already Exists!" });
+                    }
+                }
+            }
+            catch (DbException)
+            {
+                return Json(new { error = true, message = "Something Went Wrong!" });
+            }
+            return Json(new { error = true, message = "An Unexpected Error Occured!" });
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             if (id == 0)
@@ -92,50 +136,6 @@ namespace UniLibrary.Controllers
         {
             var rooms = await _roomService.GetAllRoomsAsync();
             return Json(new { data = rooms });
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RoomViewModel model)
-        {
-            try
-            {
-                foreach (var item in await _roomService.GetAllRoomsAsync())
-                {
-                    if (item.Name != model.Name)
-                    {
-                        Room? room = null;
-                        switch (model.Room!.ToString())
-                        {
-                            case "MeetingRoom":
-                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.MeetingRoom);
-                                break;
-                            case "StudyRoom":
-                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.StudyRoom);
-                                break;
-                            case "ComputerRoom":
-                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.ComputerRoom);
-                                break;
-                            case "ConferenceRoom":
-                                room = RoomConcreteFactory.getRoom(Models.Enums.Rooms.ConferenceRoom);
-                                break;
-                        }
-                        room!.Name = model.Name;
-                        room.Capacity = model.Capacity;
-                        room.Floor = model.Floor;
-                        await _roomService.AddAsync(room);
-                        return Json(new { success = true, message = "Room Created Succcessfully" });
-                    }
-                    else
-                    {
-                        return Json(new { error = true, message = "Room Already Exists!" });
-                    }
-                }
-            }
-            catch (DbException)
-            {
-                return Json(new { error = true, message = "Something Went Wrong!" });
-            }
-            return Json(new { error = true, message = "An Unexpected Error Occured!" });
         }
 
         [HttpDelete]
