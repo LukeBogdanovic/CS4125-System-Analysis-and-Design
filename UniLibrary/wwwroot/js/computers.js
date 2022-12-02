@@ -14,7 +14,7 @@ $(document).ready(function () {
         data: "availability",
         render: function (data) {
           let availability = "Available";
-          if (data == false) {
+          if (!data) {
             availability = "Not Available";
           }
           return `<td>${availability}</td>`;
@@ -33,7 +33,7 @@ $(document).ready(function () {
     ],
   });
   $("#computers").on("click", ".js-delete", function () {
-    var button = $(this);
+    let button = $(this);
     Swal.fire({
       title: `Are you sure you want to delete this Computer ?`,
       icon: "warning",
