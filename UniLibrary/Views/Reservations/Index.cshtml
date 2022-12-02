@@ -45,7 +45,7 @@
                 <a class="btn btn-primary mt-2 mt-sm-0 ml-sm-3 py-2 px-3"
                     style="text-decoration:none; vertical-align: middle;" asp-controller="Reservations"
                     asp-action="Create">
-                    <i class="align-middle  bi bi-plus-circle"></i> <span class="align-middle">&nbsp; New</span>
+                    <em class="align-middle  bi bi-plus-circle"></em> <span class="align-middle">&nbsp; New</span>
                 </a>
 
             </ul>
@@ -54,6 +54,7 @@
 </div>
 <div class="p-3">
     <table id="loans" class="table table-hover">
+        <caption></caption>
         <thead>
             <tr class="bg-light">
                 <th> @Html.DisplayName("Student ID")</th>
@@ -91,7 +92,7 @@
                     {
                         <td>
                             <a class='btn-link js-delete' data-reservation-id=@item.ReservationID>
-                                <i class='bi bi-trash-fill' style='color: #ff4136; cursor:pointer;'></i>
+                                <em class='bi bi-trash-fill' style='color: #ff4136; cursor:pointer;'></em>
                             </a>
                         </td>
                     }
