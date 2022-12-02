@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using UniLibrary.Models;
 using UniLibrary.Interfaces;
 using System.Data.Common;
+using UniLibrary.Observer;
 
 namespace UniLibrary.Controllers
 {
@@ -150,78 +151,6 @@ namespace UniLibrary.Controllers
         private async Task<bool> ComputerExists(int id)
         {
             return await _computerService.GetByIDAsync(id) != null;
-        }
-    }
-
-    public class PCAvailabilityObserver : IAvailabilityObserver
-    {
-        private string ComNum;
-        private PC pc;
-        public List<Computer> available = new List<Computer>();
-        public List<Computer> unavailable = new List<Computer>();
-
-
-        // Constructor
-
-        public PCAvailabilityObserver(PC pc, string ComNum)
-        {
-            this.pc = pc;
-            this.ComNum = ComNum;
-        }
-
-        public override void Update(IAvailabilityObserver x)
-        {
-            available.Clear();
-            unavailable.Clear();
-            if (x.GetComputer().Availability == true)
-            {
-                available.Add(x.GetComputer());
-            }
-            else
-            {
-                unavailable.Add(x.GetComputer());
-            }
-
-        }
-
-        public override PC GetComputer()
-        {
-            return pc;
-        }
-    }
-
-    public class LaptopAvailabilityObserver : IAvailabilityObserver
-    {
-        private string ComNum;
-        private Laptop laptop;
-        public List<Computer> available = new List<Computer>();
-        public List<Computer> unavailable = new List<Computer>();
-
-
-        // Constructor
-
-        public LaptopAvailabilityObserver(Laptop laptop, string ComNum)
-        {
-            this.laptop = laptop;
-            this.ComNum = ComNum;
-
-        }
-        public override Laptop GetComputer()
-        {
-            return laptop;
-        }
-
-        public override void Update(IAvailabilityObserver x)
-        {
-            if (x.GetComputer().Availability == true)
-            {
-                available.Add(x.GetComputer());
-            }
-            else
-            {
-                unavailable.Add(x.GetComputer());
-            }
-
         }
     }
 }

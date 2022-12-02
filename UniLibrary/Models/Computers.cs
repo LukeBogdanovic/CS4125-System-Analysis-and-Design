@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using UniLibrary.Interfaces;
 
 namespace UniLibrary.Models
 {
@@ -78,9 +79,4 @@ namespace UniLibrary.Models
         }
     }
 
-    public abstract class IAvailabilityObserver
-    {
-        public abstract void Update(IAvailabilityObserver x);
-        public abstract Computer GetComputer();
-    }
 }
